@@ -178,6 +178,21 @@ button { font: inherit; }
 .origin-path { display: flex; align-items: center; gap: 24px; max-width: 610px; padding-top: 28px; border-top: 1px solid rgba(242,238,228,.28); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .72rem; letter-spacing: .08em; }
 .origin-path i { color: var(--gold); font-style: normal; }
 
+.field-notes { position: relative; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.field-notes::before { content: ""; position: absolute; inset: 0 50% 0 0; z-index: -1; background: linear-gradient(145deg, rgba(24,50,33,.36), transparent 70%); }
+.field-notes-grid { display: grid; grid-template-columns: minmax(320px, .78fr) minmax(0, 1.22fr); gap: clamp(60px, 9vw, 130px); align-items: center; }
+.field-notes-photo { position: relative; margin: 0; padding: 13px; border: 1px solid rgba(231,163,56,.62); background: #172219; box-shadow: 0 32px 90px rgba(0,0,0,.32); transform: rotate(-1.2deg); }
+.field-notes-photo::before { content: ""; position: absolute; inset: 7px; z-index: 1; border: 1px solid rgba(242,238,228,.17); pointer-events: none; }
+.field-notes-photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; object-position: center; filter: saturate(.96) contrast(1.02); }
+.field-notes-photo figcaption { display: flex; justify-content: space-between; gap: 20px; padding: 13px 3px 1px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .62rem; letter-spacing: .09em; }
+.field-notes-photo figcaption span:first-child { color: var(--gold); }
+.field-notes-copy { max-width: 680px; }
+.field-notes-copy .section-kicker { margin: 0 0 34px; }
+.field-notes-copy h2 { margin: 0 0 38px; font-size: clamp(3.2rem, 6vw, 6rem); line-height: .91; letter-spacing: -.055em; text-transform: uppercase; }
+.field-notes-copy h2 span { color: var(--gold); }
+.field-notes-copy > p:not(.section-kicker) { max-width: 620px; color: rgba(242,238,228,.8); font-size: 1.08rem; }
+.field-notes-signature { margin: 34px 0 27px; padding-top: 21px; border-top: 1px solid var(--line); color: var(--green); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .68rem; letter-spacing: .09em; }
+
 .founder-story { min-height: 820px; display: grid; align-items: stretch; background: linear-gradient(90deg, rgba(5,13,8,.96) 0%, rgba(5,13,8,.88) 32%, rgba(5,13,8,.34) 58%, rgba(5,13,8,.08) 100%), linear-gradient(0deg, rgba(5,13,8,.55), transparent 48%), url("assets/igor-oroch-cafe-fazenda-v4-suja.webp") 60% center / cover no-repeat; }
 .founder-content { width: min(var(--max), calc(100% - 48px)); min-height: inherit; margin: 0 auto; display: flex; align-items: center; }
 .founder-card { max-width: 600px; padding: 62px 58px; border: 1px solid rgba(140,173,120,.22); background: rgba(8,18,11,.72); backdrop-filter: blur(12px); box-shadow: 0 30px 100px rgba(0,0,0,.3); }
@@ -208,7 +223,7 @@ footer > div { display: flex; justify-content: flex-end; gap: 20px; }
   .hero-image img { object-position: 68% center; }
   .hero-shade { background: linear-gradient(90deg, rgba(9,9,8,.96), rgba(9,9,8,.59)), linear-gradient(0deg, rgba(9,9,8,.78), transparent 48%); }
   .hero h1 { font-size: clamp(3.5rem, 13vw, 5.4rem); }
-  .product-layout, .manifesto-grid, .store-card { grid-template-columns: 1fr; gap: 70px; }
+  .product-layout, .manifesto-grid, .store-card, .field-notes-grid { grid-template-columns: 1fr; gap: 70px; }
   .section-inner { padding: 95px 0; }
   .product { background-position: 61% center; }
   .product-copy { max-width: 640px; padding: 30px; margin: -30px; background: rgba(6,16,9,.69); backdrop-filter: blur(8px); }
@@ -223,6 +238,8 @@ footer > div { display: flex; justify-content: flex-end; gap: 20px; }
   .manifesto { background-position: 64% center; }
   .manifesto h2 span { white-space: normal; }
   .caas-copy { max-width: 650px; }
+  .field-notes-photo { width: min(560px, 88%); margin: 0 auto; }
+  .field-notes-copy { max-width: 680px; }
   .founder-story { min-height: 900px; background-position: 68% center; }
   .founder-content { align-items: end; padding: 80px 0 54px; }
   .founder-card { max-width: 570px; padding: 44px 38px; }
@@ -258,6 +275,11 @@ footer > div { display: flex; justify-content: flex-end; gap: 20px; }
   .origin-panel { padding: 85px 0; }
   .origin { min-height: 680px; background-position: 61% center; }
   .origin-path { gap: 11px; font-size: .61rem; }
+  .field-notes-grid { gap: 48px; }
+  .field-notes-photo { width: 100%; transform: rotate(-.55deg); }
+  .field-notes-photo figcaption { font-size: .54rem; }
+  .field-notes-copy h2 { font-size: clamp(3.15rem, 16vw, 4.5rem); }
+  .field-notes-copy > p:not(.section-kicker) { font-size: 1rem; }
   .founder-story { min-height: 980px; background-position: 72% center; }
   .founder-content { width: calc(100% - 36px); padding: 360px 0 28px; }
   .founder-card { padding: 34px 24px; }
