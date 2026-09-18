@@ -7,7 +7,6 @@ Configure no projeto, em **Settings → Variables and Secrets**:
 - `MERCADO_PAGO_ACCESS_TOKEN` — secret de produção renovado; nunca adicionar ao GitHub.
 - `MERCADO_PAGO_WEBHOOK_SECRET` — secret exibido em Webhooks na aplicação do Mercado Pago.
 - `SITE_URL` — `https://stackcoffee.com.br`.
-- `SHIPPING_FLAT_AMOUNT` — valor fixo do frete em reais, usando ponto decimal. Use `0` somente para frete grátis.
 
 ## Webhook
 
@@ -26,7 +25,7 @@ Os preços enviados pelo navegador são ignorados. O servidor usa apenas o SKU e
 
 ## Antes de liberar vendas
 
-1. Definir o valor ou a estratégia de frete.
+1. Confirmar como o endereço de entrega será coletado e conferido antes do envio.
 2. Configurar as credenciais renovadas como secrets.
 3. Configurar e testar o webhook.
 4. Fazer uma compra com uma conta de teste.

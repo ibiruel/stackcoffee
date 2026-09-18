@@ -35,6 +35,8 @@ const quantityValue = document.querySelector('#quantity-value');
 const orderTotal = document.querySelector('#order-total');
 const checkoutButton = document.querySelector('#checkout-button');
 const checkoutMessage = document.querySelector('#checkout-message');
+const productImages = [...document.querySelectorAll('[data-product-image]')];
+const mediaCaption = document.querySelector('#media-caption');
 let selectedVariant = variantButtons[0];
 let quantity = 1;
 
@@ -53,6 +55,14 @@ variantButtons.forEach((button) => {
       item.setAttribute('aria-checked', String(item === button));
     });
     selectedVariant = button;
+    productImages.forEach((image) => {
+      const isSelected = image.dataset.productImage === button.dataset.sku;
+      image.classList.toggle('is-active', isSelected);
+      image.setAttribute('aria-hidden', String(!isSelected));
+    });
+    mediaCaption.textContent = button.dataset.sku === 'SC-DB-1KG-GRAOS'
+      ? '1 KG // TORRADO EM GRÃOS'
+      : '250 G // TORRADO E MOÍDO';
     checkoutMessage.textContent = '';
     updateOrderSummary();
   });
