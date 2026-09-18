@@ -178,7 +178,7 @@ button { font: inherit; }
 .origin-path { display: flex; align-items: center; gap: 24px; max-width: 610px; padding-top: 28px; border-top: 1px solid rgba(242,238,228,.28); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .72rem; letter-spacing: .08em; }
 .origin-path i { color: var(--gold); font-style: normal; }
 
-.founder-story { min-height: 820px; display: grid; align-items: stretch; background: linear-gradient(90deg, rgba(5,13,8,.96) 0%, rgba(5,13,8,.88) 32%, rgba(5,13,8,.34) 58%, rgba(5,13,8,.08) 100%), linear-gradient(0deg, rgba(5,13,8,.55), transparent 48%), url("assets/igor-oroch-cafe-fazenda-v3.webp") 60% center / cover no-repeat; }
+.founder-story { min-height: 820px; display: grid; align-items: stretch; background: linear-gradient(90deg, rgba(5,13,8,.96) 0%, rgba(5,13,8,.88) 32%, rgba(5,13,8,.34) 58%, rgba(5,13,8,.08) 100%), linear-gradient(0deg, rgba(5,13,8,.55), transparent 48%), url("assets/igor-oroch-cafe-fazenda-v4-suja.webp") 60% center / cover no-repeat; }
 .founder-content { width: min(var(--max), calc(100% - 48px)); min-height: inherit; margin: 0 auto; display: flex; align-items: center; }
 .founder-card { max-width: 600px; padding: 62px 58px; border: 1px solid rgba(140,173,120,.22); background: rgba(8,18,11,.72); backdrop-filter: blur(12px); box-shadow: 0 30px 100px rgba(0,0,0,.3); }
 .founder-card .section-kicker { margin: 0 0 34px; }
