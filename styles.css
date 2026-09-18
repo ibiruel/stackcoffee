@@ -82,7 +82,10 @@ button { font: inherit; }
 @keyframes pulse { 50% { box-shadow: 0 0 0 9px rgba(127,175,113,0); } }
 
 .section { width: min(var(--max), calc(100% - 48px)); margin: 0 auto; padding: 130px 0; }
+.visual-section { position: relative; isolation: isolate; width: 100%; margin: 0; overflow: hidden; }
+.section-inner { position: relative; z-index: 1; width: min(var(--max), calc(100% - 48px)); margin: 0 auto; padding: 130px 0; }
 .section-kicker { color: var(--green); margin-bottom: 62px; }
+.product { min-height: 840px; background: linear-gradient(90deg, rgba(5,13,8,.97) 0%, rgba(5,13,8,.84) 37%, rgba(5,13,8,.34) 69%, rgba(5,13,8,.18) 100%), linear-gradient(0deg, rgba(5,13,8,.85) 0%, transparent 47%, rgba(5,13,8,.34) 100%), url("assets/daily-build-home-office.webp") center / cover no-repeat; }
 .product-layout { display: grid; grid-template-columns: 1.1fr .9fr; gap: 9vw; align-items: start; }
 .command { color: var(--green); margin: 0 0 28px; }
 .product h2, .store h2, .manifesto h2, .origin h2, .launch h2 { margin: 0; letter-spacing: -.055em; line-height: .88; text-transform: uppercase; }
@@ -93,7 +96,7 @@ button { font: inherit; }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 32px; }
 .tags span { border: 1px solid var(--line); padding: 7px 10px; color: var(--paper); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .66rem; letter-spacing: .08em; }
 
-.profile-card { border: 1px solid rgba(140,173,120,.22); background: linear-gradient(145deg, rgba(42,78,49,.26), rgba(255,255,255,.015)); box-shadow: 0 24px 90px rgba(0,0,0,.25); }
+.profile-card { border: 1px solid rgba(140,173,120,.3); background: linear-gradient(145deg, rgba(22,45,28,.88), rgba(7,15,10,.8)); backdrop-filter: blur(13px); box-shadow: 0 24px 90px rgba(0,0,0,.34); }
 .profile-top { display: flex; justify-content: space-between; align-items: center; padding: 16px 19px; border-bottom: 1px solid var(--line); color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .68rem; letter-spacing: .08em; }
 .profile-top .live { color: #8eae82; }
 .spec-list { margin: 0; padding: 10px 19px; }
@@ -153,10 +156,12 @@ button { font: inherit; }
 .commerce-benefits strong { color: var(--paper); font-size: .86rem; }
 .commerce-benefits span { color: var(--muted); font-size: .75rem; line-height: 1.45; }
 
-.manifesto { border-top: 1px solid var(--line); }
-.manifesto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10vw; align-items: start; }
-.manifesto h2 { font-size: clamp(4.2rem, 8.5vw, 8rem); }
+.manifesto { min-height: 850px; border-top: 1px solid var(--line); background: linear-gradient(90deg, rgba(5,13,8,.9) 0%, rgba(5,13,8,.57) 42%, rgba(5,13,8,.38) 100%), linear-gradient(0deg, rgba(5,13,8,.92) 0%, transparent 58%, rgba(5,13,8,.34) 100%), url("assets/coffee-as-a-service-office.webp") center / cover no-repeat; }
+.manifesto-grid { display: grid; grid-template-columns: .92fr 1.08fr; gap: 8vw; align-items: start; }
+.manifesto h2 { font-size: clamp(3.8rem, 6vw, 6.5rem); text-shadow: 0 8px 36px rgba(0,0,0,.38); }
+.manifesto h2 span { display: inline-block; white-space: nowrap; }
 .manifesto-copy { padding-top: 14px; }
+.caas-copy { padding: 34px 36px 38px; border: 1px solid rgba(140,173,120,.28); background: rgba(7,17,10,.8); backdrop-filter: blur(13px); box-shadow: 0 26px 80px rgba(0,0,0,.3); }
 .manifesto-copy > p { max-width: 510px; color: var(--paper); font-size: 1.12rem; }
 .caas-copy .caas-lead { color: var(--cream); font-size: 1.35rem; font-weight: 650; line-height: 1.35; }
 .caas-benefits { display: flex; flex-wrap: wrap; gap: 8px; margin: 30px 0; }
@@ -203,6 +208,9 @@ footer > div { display: flex; justify-content: flex-end; gap: 20px; }
   .hero-shade { background: linear-gradient(90deg, rgba(9,9,8,.96), rgba(9,9,8,.59)), linear-gradient(0deg, rgba(9,9,8,.78), transparent 48%); }
   .hero h1 { font-size: clamp(3.5rem, 13vw, 5.4rem); }
   .product-layout, .manifesto-grid, .store-card { grid-template-columns: 1fr; gap: 70px; }
+  .section-inner { padding: 95px 0; }
+  .product { background-position: 61% center; }
+  .product-copy { max-width: 640px; padding: 30px; margin: -30px; background: rgba(6,16,9,.69); backdrop-filter: blur(8px); }
   .profile-card { max-width: 630px; }
   .store-media { min-height: 620px; }
   .store-details { padding: 0 42px 52px; }
@@ -211,6 +219,9 @@ footer > div { display: flex; justify-content: flex-end; gap: 20px; }
   .commerce-benefits > div:last-child { border-bottom: 0; }
   .section { padding: 95px 0; }
   .section-kicker { margin-bottom: 42px; }
+  .manifesto { background-position: 64% center; }
+  .manifesto h2 span { white-space: normal; }
+  .caas-copy { max-width: 650px; }
   .founder-story { min-height: 900px; background-position: 68% center; }
   .founder-content { align-items: end; padding: 80px 0 54px; }
   .founder-card { max-width: 570px; padding: 44px 38px; }
@@ -220,15 +231,17 @@ footer > div { display: flex; justify-content: flex-end; gap: 20px; }
 
 @media (max-width: 560px) {
   .brand { font-size: .74rem; }
-  .hero-content, .hero-status, .section, .origin-panel, footer { width: calc(100% - 36px); }
+  .hero-content, .hero-status, .section, .section-inner, .origin-panel, footer { width: calc(100% - 36px); }
   .hero-content { margin-top: 30px; }
   .hero-copy { font-size: 1rem; }
   .hero-actions { align-items: flex-start; flex-direction: column; gap: 20px; }
   .button { width: 100%; }
   .hero-status { grid-template-columns: auto 1fr; }
   .hero-status b { display: none; }
-  .section { padding: 78px 0; }
+  .section, .section-inner { padding: 78px 0; }
   .product h2, .manifesto h2 { font-size: clamp(3.75rem, 20vw, 5.2rem); }
+  .product { min-height: 950px; background-position: 62% center; }
+  .product-copy { padding: 24px 20px; margin: -24px -20px; }
   .profile-card { margin-inline: -3px; }
   .store-card { gap: 42px; }
   .store-media { min-height: 430px; }
@@ -249,6 +262,8 @@ footer > div { display: flex; justify-content: flex-end; gap: 20px; }
   .founder-card { padding: 34px 24px; }
   .founder-card h2 { font-size: clamp(3.2rem, 17vw, 4.5rem); }
   .button-whatsapp { width: 100%; }
+  .manifesto { min-height: 980px; background-position: 58% center; }
+  .caas-copy { padding: 28px 22px 30px; }
   footer > div { flex-direction: column; gap: 8px; }
 }
 
