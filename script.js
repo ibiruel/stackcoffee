@@ -42,6 +42,25 @@ let quantity = 1;
 
 const currency = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 
+function trackEvent(name, parameters = {}) {
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', name, parameters);
+  }
+}
+
+function currentItem() {
+  const isOneKilo = selectedVariant.dataset.sku === 'SC-DB-1KG-GRAOS';
+  return {
+    item_id: selectedVariant.dataset.sku,
+    item_name: 'Stack Coffee Daily Build',
+    item_brand: 'Stack Coffee',
+    item_category: 'Café especial',
+    item_variant: isOneKilo ? '1 kg em grãos' : '250 g torrado e moído',
+    price: Number(selectedVariant.dataset.price),
+    quantity,
+  };
+}
+
 function updateOrderSummary() {
   const price = Number(selectedVariant.dataset.price);
   quantityValue.textContent = String(quantity);
@@ -65,6 +84,10 @@ variantButtons.forEach((button) => {
       : '250 G // TORRADO E MOÍDO';
     checkoutMessage.textContent = '';
     updateOrderSummary();
+    trackEvent('select_item', {
+      item_list_name: 'Daily Build',
+      items: [currentItem()],
+    });
   });
 });
 
@@ -79,6 +102,12 @@ document.querySelector('#quantity-plus').addEventListener('click', () => {
 });
 
 checkoutButton.addEventListener('click', async () => {
+  trackEvent('begin_checkout', {
+    currency: 'BRL',
+    value: Number(selectedVariant.dataset.price) * quantity,
+    items: [currentItem()],
+  });
+
   checkoutButton.disabled = true;
   checkoutButton.firstChild.textContent = 'Preparando pagamento ';
   checkoutMessage.textContent = '';
@@ -101,6 +130,41 @@ checkoutButton.addEventListener('click', async () => {
     checkoutButton.disabled = false;
     checkoutButton.firstChild.textContent = 'Pagar com Mercado Pago ';
   }
+});
+
+const storeCard = document.querySelector('.store-card');
+if (storeCard) {
+  const productObserver = new IntersectionObserver((entries, instance) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      trackEvent('view_item', {
+        currency: 'BRL',
+        value: Number(selectedVariant.dataset.price),
+        items: [currentItem()],
+      });
+      instance.disconnect();
+    }
+  }, { threshold: 0.35 });
+  productObserver.observe(storeCard);
+}
+
+document.querySelectorAll('.button-whatsapp').forEach((link) => {
+  link.addEventListener('click', () => {
+    trackEvent('generate_lead', {
+      method: 'whatsapp',
+      campaign: 'coffee_as_a_service',
+      value: 0,
+      currency: 'BRL',
+    });
+  });
+});
+
+document.querySelectorAll('a[href*="instagram.com"]').forEach((link) => {
+  link.addEventListener('click', () => {
+    trackEvent('select_content', {
+      content_type: 'social_profile',
+      item_id: 'instagram_stack_coffee',
+    });
+  });
 });
 
 updateOrderSummary();
