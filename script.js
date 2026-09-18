@@ -30,16 +30,67 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach((element) => observer.observe(element));
 document.querySelector('#year').textContent = new Date().getFullYear();
 
-const marketplaceButton = document.querySelector('#mercado-livre-buy');
-const marketplaceUrl = marketplaceButton?.dataset.marketplaceUrl?.trim();
+const variantButtons = [...document.querySelectorAll('.variant-option')];
+const quantityValue = document.querySelector('#quantity-value');
+const orderTotal = document.querySelector('#order-total');
+const checkoutButton = document.querySelector('#checkout-button');
+const checkoutMessage = document.querySelector('#checkout-message');
+let selectedVariant = variantButtons[0];
+let quantity = 1;
 
-if (marketplaceButton && marketplaceUrl) {
-  marketplaceButton.href = marketplaceUrl;
-  marketplaceButton.target = '_blank';
-  marketplaceButton.rel = 'noreferrer';
-  marketplaceButton.classList.remove('is-disabled');
-  marketplaceButton.removeAttribute('aria-disabled');
-  marketplaceButton.firstChild.textContent = 'Comprar no Mercado Livre ';
-} else if (marketplaceButton) {
-  marketplaceButton.addEventListener('click', (event) => event.preventDefault());
+const currency = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
+
+function updateOrderSummary() {
+  const price = Number(selectedVariant.dataset.price);
+  quantityValue.textContent = String(quantity);
+  orderTotal.textContent = currency.format(price * quantity);
 }
+
+variantButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    variantButtons.forEach((item) => {
+      item.classList.toggle('active', item === button);
+      item.setAttribute('aria-checked', String(item === button));
+    });
+    selectedVariant = button;
+    checkoutMessage.textContent = '';
+    updateOrderSummary();
+  });
+});
+
+document.querySelector('#quantity-minus').addEventListener('click', () => {
+  quantity = Math.max(1, quantity - 1);
+  updateOrderSummary();
+});
+
+document.querySelector('#quantity-plus').addEventListener('click', () => {
+  quantity = Math.min(10, quantity + 1);
+  updateOrderSummary();
+});
+
+checkoutButton.addEventListener('click', async () => {
+  checkoutButton.disabled = true;
+  checkoutButton.firstChild.textContent = 'Preparando pagamento ';
+  checkoutMessage.textContent = '';
+
+  try {
+    const response = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ sku: selectedVariant.dataset.sku, quantity }),
+    });
+    const result = await response.json();
+
+    if (!response.ok || !result.checkout_url) {
+      throw new Error(result.error || 'Não foi possível iniciar o pagamento.');
+    }
+
+    window.location.assign(result.checkout_url);
+  } catch (error) {
+    checkoutMessage.textContent = error.message;
+    checkoutButton.disabled = false;
+    checkoutButton.firstChild.textContent = 'Pagar com Mercado Pago ';
+  }
+});
+
+updateOrderSummary();

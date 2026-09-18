@@ -89,7 +89,7 @@
 
       <section class="store section" id="comprar" aria-labelledby="store-title">
         <div class="section-kicker reveal">02 // DEPLOY PARA SUA XÍCARA</div>
-        <div class="store-card reveal" data-product-sku="SC-DB-250-GRAOS">
+        <div class="store-card reveal">
           <div class="store-media">
             <img src="assets/daily-build-packaging.webp" alt="Embalagens frontal e traseira do café Stack Coffee Daily Build" width="1400" height="1750" loading="lazy" />
             <span class="store-badge">PRIMEIRO LOTE</span>
@@ -98,10 +98,20 @@
           <div class="store-details">
             <p class="command">$ checkout --channel mercado-livre</p>
             <h2 id="store-title">DAILY BUILD</h2>
-            <p class="store-subtitle">Café especial torrado em grãos</p>
+            <p class="store-subtitle">Escolha sua versão</p>
+
+            <div class="variant-list" role="radiogroup" aria-label="Versão do Daily Build">
+              <button class="variant-option active" type="button" role="radio" aria-checked="true" data-sku="SC-DB-250-MOIDO" data-price="39.90">
+                <span><b>250 g</b><small>Torrado e moído</small></span>
+                <strong>R$ 39,90</strong>
+              </button>
+              <button class="variant-option" type="button" role="radio" aria-checked="false" data-sku="SC-DB-1KG-GRAOS" data-price="134.90">
+                <span><b>1 kg</b><small>Torrado em grãos</small></span>
+                <strong>R$ 134,90</strong>
+              </button>
+            </div>
 
             <div class="store-specs" aria-label="Características do produto">
-              <span>250 g</span>
               <span>100% arábica</span>
               <span>Torra média</span>
               <span>Sul de Minas</span>
@@ -109,24 +119,35 @@
 
             <p class="store-description">Doce, encorpado e fácil de beber. Notas de chocolate, caramelo e castanhas para manter sua stack rodando do primeiro café ao último commit.</p>
 
-            <div class="release-status">
-              <span>STATUS DO RELEASE</span>
-              <strong><i></i> PREPARANDO PRIMEIRO LOTE</strong>
+            <div class="order-row">
+              <div class="quantity-control" aria-label="Quantidade">
+                <span>QUANTIDADE</span>
+                <div>
+                  <button id="quantity-minus" type="button" aria-label="Diminuir quantidade">−</button>
+                  <output id="quantity-value" aria-live="polite">1</output>
+                  <button id="quantity-plus" type="button" aria-label="Aumentar quantidade">+</button>
+                </div>
+              </div>
+              <div class="order-total">
+                <span>TOTAL DOS PRODUTOS</span>
+                <strong id="order-total">R$ 39,90</strong>
+              </div>
             </div>
 
             <div class="buy-area">
-              <a id="mercado-livre-buy" class="button button-marketplace is-disabled" href="#" aria-disabled="true" data-marketplace-url="">
-                Disponível em breve <span>↗</span>
-              </a>
-              <p>Quando as vendas abrirem, pagamento, segurança e entrega serão processados pelo Mercado Livre.</p>
+              <button id="checkout-button" class="button button-marketplace" type="button">
+                Pagar com Mercado Pago <span>↗</span>
+              </button>
+              <p>Pix, cartão ou boleto no ambiente seguro do Mercado Pago. O valor do frete será acrescentado no checkout.</p>
             </div>
+            <p class="checkout-message" id="checkout-message" role="status" aria-live="polite"></p>
 
             <a class="notify-link" href="https://www.instagram.com/stackcoffe.oficial/" target="_blank" rel="noreferrer">Acompanhar o lançamento no Instagram <span>→</span></a>
           </div>
         </div>
 
         <div class="commerce-benefits reveal" aria-label="Benefícios da compra">
-          <div><b>01</b><strong>Compra protegida</strong><span>Pagamento processado no ambiente do Mercado Livre.</span></div>
+          <div><b>01</b><strong>Compra protegida</strong><span>Pagamento processado no ambiente do Mercado Pago.</span></div>
           <div><b>02</b><strong>Entrega acompanhada</strong><span>Rastreamento disponível no pedido.</span></div>
           <div><b>03</b><strong>Café de lote fresco</strong><span>Produção inicial pequena, com atenção à data de torra.</span></div>
         </div>

@@ -114,17 +114,31 @@ button { font: inherit; }
 .store-details .command { margin-bottom: 24px; }
 .store h2 { font-size: clamp(3.4rem, 6.5vw, 6.2rem); }
 .store-subtitle { margin: 15px 0 0; color: var(--paper); font-size: 1.1rem; }
+.variant-list { display: grid; gap: 9px; margin: 28px 0 8px; }
+.variant-option { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 18px; border: 1px solid var(--line); background: transparent; color: var(--paper); text-align: left; cursor: pointer; transition: border-color .2s ease, background .2s ease; }
+.variant-option:hover { border-color: rgba(231,163,56,.55); }
+.variant-option.active { border-color: var(--gold); background: rgba(231,163,56,.07); }
+.variant-option > span { display: grid; gap: 1px; }
+.variant-option b { font-size: .9rem; }
+.variant-option small { color: var(--muted); font-size: .76rem; }
+.variant-option strong { color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9rem; white-space: nowrap; }
 .store-specs { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0; }
 .store-specs span { padding: 7px 10px; border: 1px solid var(--line); color: var(--paper); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .65rem; letter-spacing: .06em; text-transform: uppercase; }
 .store-description { margin: 0; color: var(--muted); }
-.release-status { display: flex; justify-content: space-between; gap: 18px; margin: 32px 0; padding: 17px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .65rem; letter-spacing: .07em; }
-.release-status > span { color: var(--muted); }
-.release-status strong { color: var(--paper); font-weight: 500; }
-.release-status i { display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px rgba(231,163,56,.12); }
+.order-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 30px 0; padding: 19px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.quantity-control, .order-total { display: grid; gap: 9px; }
+.quantity-control > span, .order-total > span { color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .62rem; letter-spacing: .07em; }
+.quantity-control > div { display: grid; grid-template-columns: 34px 42px 34px; align-items: center; }
+.quantity-control button { width: 34px; height: 34px; border: 1px solid var(--line); background: transparent; color: var(--paper); cursor: pointer; }
+.quantity-control button:hover { border-color: var(--gold); color: var(--gold); }
+.quantity-control output { text-align: center; color: var(--cream); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.order-total { text-align: right; }
+.order-total strong { color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 1.12rem; }
 .buy-area { display: grid; grid-template-columns: minmax(220px, auto) 1fr; gap: 18px; align-items: center; }
 .button-marketplace { background: var(--gold); color: var(--ink); }
-.button-marketplace.is-disabled { cursor: not-allowed; border-color: rgba(255,255,255,.16); background: rgba(255,255,255,.08); color: var(--muted); transform: none; }
+.button-marketplace:disabled { cursor: wait; opacity: .7; transform: none; }
 .buy-area p { margin: 0; color: var(--muted); font-size: .76rem; line-height: 1.45; }
+.checkout-message { min-height: 1.4em; margin: 13px 0 0; color: #e5a3a3; font-size: .78rem; }
 .notify-link { align-self: flex-start; margin-top: 25px; padding-bottom: 3px; border-bottom: 1px solid var(--line); color: var(--paper); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .72rem; }
 .notify-link:hover { color: var(--gold); }
 .commerce-benefits { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 24px; border: 1px solid var(--line); }
@@ -204,6 +218,8 @@ footer > div { display: flex; justify-content: flex-end; gap: 20px; }
   .store-details { padding: 0 22px 32px; }
   .store h2 { font-size: clamp(3.2rem, 18vw, 4.5rem); }
   .release-status { align-items: flex-start; flex-direction: column; }
+  .order-row { grid-template-columns: 1fr; }
+  .order-total { text-align: left; }
   .buy-area { grid-template-columns: 1fr; }
   .notify-link { line-height: 1.5; }
   .spec-list > div { grid-template-columns: 85px 1fr; }

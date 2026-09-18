@@ -1,0 +1,4 @@
+MERCADO_PAGO_ACCESS_TOKEN=configure_como_segredo_no_cloudflare
+MERCADO_PAGO_WEBHOOK_SECRET=configure_como_segredo_no_cloudflare
+SITE_URL=https://stackcoffee.com.br
+SHIPPING_FLAT_AMOUNT=configure_valor_em_reais
