@@ -158,7 +158,11 @@ button { font: inherit; }
 .manifesto h2 { font-size: clamp(4.2rem, 8.5vw, 8rem); }
 .manifesto-copy { padding-top: 14px; }
 .manifesto-copy > p { max-width: 510px; color: var(--paper); font-size: 1.12rem; }
-.manifesto blockquote { margin: 50px 0 0; padding-left: 25px; border-left: 2px solid var(--gold); color: var(--gold); font-family: Georgia, "Times New Roman", serif; font-size: clamp(1.3rem, 2.2vw, 1.8rem); font-style: italic; line-height: 1.4; }
+.caas-copy .caas-lead { color: var(--cream); font-size: 1.35rem; font-weight: 650; line-height: 1.35; }
+.caas-benefits { display: flex; flex-wrap: wrap; gap: 8px; margin: 30px 0; }
+.caas-benefits span { padding: 7px 10px; border: 1px solid rgba(140,173,120,.3); color: var(--green); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .65rem; letter-spacing: .06em; }
+.button-whatsapp { width: fit-content; border-color: var(--green); background: var(--green); color: var(--ink); }
+.button-whatsapp:hover { background: #a1c68a; }
 
 .origin { position: relative; width: 100%; min-height: 760px; padding: 0; display: grid; align-items: end; background: linear-gradient(90deg, rgba(5,18,10,.9) 0%, rgba(5,18,10,.7) 42%, rgba(5,18,10,.16) 75%), linear-gradient(0deg, rgba(5,18,10,.72), transparent 55%), url("assets/cafe-no-pe-sul-de-minas.webp") center / cover no-repeat; color: var(--cream); }
 .origin-panel { width: min(var(--max), calc(100% - 48px)); margin: 0 auto; padding: 140px 0 105px; }
@@ -168,11 +172,16 @@ button { font: inherit; }
 .origin-path { display: flex; align-items: center; gap: 24px; max-width: 610px; padding-top: 28px; border-top: 1px solid rgba(242,238,228,.28); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .72rem; letter-spacing: .08em; }
 .origin-path i { color: var(--gold); font-style: normal; }
 
-.launch { min-height: 680px; display: grid; align-content: center; text-align: center; }
-.launch .section-kicker { margin-bottom: 35px; }
-.launch h2 { font-size: clamp(3.6rem, 7.6vw, 7rem); }
-.launch-content p { max-width: 530px; margin: 30px auto; color: var(--muted); }
-.launch .button { margin-top: 8px; }
+.founder-story { min-height: 820px; display: grid; align-items: stretch; background: linear-gradient(90deg, rgba(5,13,8,.96) 0%, rgba(5,13,8,.88) 32%, rgba(5,13,8,.34) 58%, rgba(5,13,8,.08) 100%), linear-gradient(0deg, rgba(5,13,8,.55), transparent 48%), url("assets/igor-oroch-cafe-fazenda.webp") 60% center / cover no-repeat; }
+.founder-content { width: min(var(--max), calc(100% - 48px)); min-height: inherit; margin: 0 auto; display: flex; align-items: center; }
+.founder-card { max-width: 600px; padding: 62px 58px; border: 1px solid rgba(140,173,120,.22); background: rgba(8,18,11,.72); backdrop-filter: blur(12px); box-shadow: 0 30px 100px rgba(0,0,0,.3); }
+.founder-card .section-kicker { margin: 0 0 34px; }
+.founder-card h2 { margin: 0 0 30px; font-size: clamp(3.3rem, 6.5vw, 6.2rem); line-height: .9; letter-spacing: -.055em; text-transform: uppercase; }
+.founder-card h2 span { color: var(--gold); }
+.founder-card > p:not(.section-kicker) { color: rgba(242,238,228,.82); font-size: 1.03rem; }
+.founder-signature { display: grid; gap: 2px; margin: 34px 0 27px; padding-top: 22px; border-top: 1px solid var(--line); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.founder-signature strong { color: var(--cream); font-size: .82rem; letter-spacing: .08em; }
+.founder-signature span { color: var(--green); font-size: .64rem; letter-spacing: .1em; }
 
 footer { width: min(var(--max), calc(100% - 48px)); margin: 0 auto; padding: 46px 0; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 30px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .68rem; letter-spacing: .07em; }
 footer > p { margin: 0; color: var(--gold); }
@@ -202,6 +211,9 @@ footer > div { display: flex; justify-content: flex-end; gap: 20px; }
   .commerce-benefits > div:last-child { border-bottom: 0; }
   .section { padding: 95px 0; }
   .section-kicker { margin-bottom: 42px; }
+  .founder-story { min-height: 900px; background-position: 68% center; }
+  .founder-content { align-items: end; padding: 80px 0 54px; }
+  .founder-card { max-width: 570px; padding: 44px 38px; }
   footer { grid-template-columns: 1fr; align-items: start; }
   footer > div { justify-content: flex-start; }
 }
@@ -232,7 +244,11 @@ footer > div { display: flex; justify-content: flex-end; gap: 20px; }
   .origin-panel { padding: 85px 0; }
   .origin { min-height: 680px; background-position: 61% center; }
   .origin-path { gap: 11px; font-size: .61rem; }
-  .launch { min-height: 570px; }
+  .founder-story { min-height: 980px; background-position: 72% center; }
+  .founder-content { width: calc(100% - 36px); padding: 360px 0 28px; }
+  .founder-card { padding: 34px 24px; }
+  .founder-card h2 { font-size: clamp(3.2rem, 17vw, 4.5rem); }
+  .button-whatsapp { width: 100%; }
   footer > div { flex-direction: column; gap: 8px; }
 }
 
