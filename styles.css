@@ -181,6 +181,9 @@ button { font: inherit; }
 .field-notes { position: relative; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .field-notes::before { content: ""; position: absolute; inset: 0 50% 0 0; z-index: -1; background: linear-gradient(145deg, rgba(24,50,33,.36), transparent 70%); }
 .field-notes-grid { display: grid; grid-template-columns: minmax(320px, .78fr) minmax(0, 1.22fr); gap: clamp(60px, 9vw, 130px); align-items: center; }
+.field-notes-grid + .field-notes-grid { margin-top: 130px; padding-top: 130px; border-top: 1px solid var(--line); }
+.field-note-row-reverse .field-notes-photo { order: 2; transform: rotate(1.2deg); }
+.field-note-row-reverse .field-notes-copy { order: 1; }
 .field-notes-photo { position: relative; margin: 0; padding: 13px; border: 1px solid rgba(231,163,56,.62); background: #172219; box-shadow: 0 32px 90px rgba(0,0,0,.32); transform: rotate(-1.2deg); }
 .field-notes-photo::before { content: ""; position: absolute; inset: 7px; z-index: 1; border: 1px solid rgba(242,238,228,.17); pointer-events: none; }
 .field-notes-photo img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; object-position: center; filter: saturate(.96) contrast(1.02); }
@@ -240,6 +243,9 @@ footer > div { display: flex; justify-content: flex-end; gap: 20px; }
   .caas-copy { max-width: 650px; }
   .field-notes-photo { width: min(560px, 88%); margin: 0 auto; }
   .field-notes-copy { max-width: 680px; }
+  .field-notes-grid + .field-notes-grid { margin-top: 90px; padding-top: 90px; }
+  .field-note-row-reverse .field-notes-photo { order: 1; }
+  .field-note-row-reverse .field-notes-copy { order: 2; }
   .founder-story { min-height: 900px; background-position: 68% center; }
   .founder-content { align-items: end; padding: 80px 0 54px; }
   .founder-card { max-width: 570px; padding: 44px 38px; }
@@ -276,6 +282,7 @@ footer > div { display: flex; justify-content: flex-end; gap: 20px; }
   .origin { min-height: 680px; background-position: 61% center; }
   .origin-path { gap: 11px; font-size: .61rem; }
   .field-notes-grid { gap: 48px; }
+  .field-notes-grid + .field-notes-grid { margin-top: 72px; padding-top: 72px; }
   .field-notes-photo { width: 100%; transform: rotate(-.55deg); }
   .field-notes-photo figcaption { font-size: .54rem; }
   .field-notes-copy h2 { font-size: clamp(3.15rem, 16vw, 4.5rem); }

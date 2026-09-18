@@ -1,0 +1,18 @@
+STACK COFFEE — VERSÃO 15
+
+Alterações desta versão:
+- Novo FIELD LOG 002 com a foto real de Igor Biruel dentro da lavoura.
+- Texto sobre contato com o plantio, o produtor e o trabalhador rural.
+- Destaque para o cuidado na seleção do café desde a origem.
+- Todos os links do Instagram corrigidos para:
+  https://www.instagram.com/stackcoffee.oficial/
+
+PUBLICAÇÃO
+Envie todo o conteúdo deste pacote, mantendo as pastas e substituindo os
+arquivos existentes. Depois, limpe o cache da Cloudflare e atualize o navegador
+com Ctrl+F5.
+
+Arquivos principais alterados:
+- index.html
+- styles.css
+- assets/igor-biruel-lavoura-cafe-contato-produtor.webp
