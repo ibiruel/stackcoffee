@@ -1,32 +1,27 @@
-# Stack Coffee — Checkout Pro
+# Stack Coffee — Landing Page v16
 
-## Variáveis no Cloudflare
+Esta versão transforma `stackcoffee.com.br` em uma landing page institucional.
 
-Configure no projeto, em **Settings → Variables and Secrets**:
+## Loja oficial
 
-- `MERCADO_PAGO_ACCESS_TOKEN` — secret de produção renovado; nunca adicionar ao GitHub.
-- `MERCADO_PAGO_WEBHOOK_SECRET` — secret exibido em Webhooks na aplicação do Mercado Pago.
-- `SITE_URL` — `https://stackcoffee.com.br`.
+Todos os CTAs comerciais apontam para:
 
-## Webhook
+`https://loja.stackcoffee.com.br/`
 
-Na aplicação do Mercado Pago, configure notificações de pagamentos para:
+Não existe checkout, preço, quantidade ou pagamento na landing page.
 
-`https://stackcoffee.com.br/api/webhooks/mercadopago`
+## Publicação
 
-O endpoint valida a assinatura `x-signature` antes de consultar o pagamento.
+Publique o conteúdo desta pasta na mesma hospedagem/Cloudflare Pages usada atualmente para `stackcoffee.com.br`.
 
-## Produtos definidos no servidor
+Arquivos principais:
 
-- `SC-DB-250-MOIDO` — Daily Build 250 g torrado e moído — R$ 39,90.
-- `SC-DB-1KG-GRAOS` — Daily Build 1 kg torrado em grãos — R$ 134,90.
+- `index.html`
+- `styles.css`
+- `script.js`
+- `assets/`
+- `politica-de-privacidade/`
+- `robots.txt`
+- `sitemap.xml`
 
-Os preços enviados pelo navegador são ignorados. O servidor usa apenas o SKU e os valores cadastrados em `functions/api/checkout.js`.
-
-## Antes de liberar vendas
-
-1. Confirmar como o endereço de entrega será coletado e conferido antes do envio.
-2. Configurar as credenciais renovadas como secrets.
-3. Configurar e testar o webhook.
-4. Fazer uma compra com uma conta de teste.
-5. Confirmar o retorno para as páginas de aprovado, pendente e não concluído.
+O Google Analytics existente (`G-5HF74Z44V3`) foi mantido.

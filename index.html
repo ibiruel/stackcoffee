@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#11110f" />
-    <meta name="description" content="Compre o Daily Build, café especial do Sul de Minas em 250 g moído ou 1 kg em grãos. Frete grátis e assinatura de café para empresas." />
+    <meta name="description" content="Conheça o Daily Build, café especial do Sul de Minas em 250 g moído ou 1 kg em grãos. Acesse a loja oficial da Stack Coffee e conheça também o Coffee as a Service para empresas." />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href="https://stackcoffee.com.br/" />
 
@@ -12,7 +12,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Stack Coffee" />
     <meta property="og:title" content="Café Especial do Sul de Minas | Stack Coffee" />
-    <meta property="og:description" content="Daily Build: café especial em 250 g moído ou 1 kg em grãos, com frete grátis. Coffee as a Service para empresas." />
+    <meta property="og:description" content="Daily Build: café especial do Sul de Minas em 250 g moído ou 1 kg em grãos. Conheça a Stack Coffee e acesse a loja oficial." />
     <meta property="og:url" content="https://stackcoffee.com.br/" />
     <meta property="og:image" content="https://stackcoffee.com.br/assets/og-stack-coffee.jpg" />
     <meta property="og:image:width" content="1200" />
@@ -75,7 +75,7 @@
             "@id": "https://stackcoffee.com.br/#daily-build",
             "name": "Stack Coffee Daily Build",
             "description": "Café especial 100% arábica do Sul de Minas, processo natural, torra média e notas de chocolate, caramelo e castanhas.",
-            "url": "https://stackcoffee.com.br/#comprar",
+            "url": "https://loja.stackcoffee.com.br/",
             "image": [
               "https://stackcoffee.com.br/assets/daily-build-250g.webp",
               "https://stackcoffee.com.br/assets/daily-build-1kg.webp"
@@ -90,40 +90,26 @@
                 "name": "Daily Build 250 g — torrado e moído",
                 "sku": "SC-DB-250-MOIDO",
                 "size": "250 g",
+                "url": "https://loja.stackcoffee.com.br/",
                 "additionalProperty": {
                   "@type": "PropertyValue",
                   "name": "Apresentação",
                   "value": "Torrado e moído"
                 },
-                "image": "https://stackcoffee.com.br/assets/daily-build-250g.webp",
-                "offers": {
-                  "@type": "Offer",
-                  "url": "https://stackcoffee.com.br/#comprar",
-                  "priceCurrency": "BRL",
-                  "price": "39.90",
-                  "availability": "https://schema.org/InStock",
-                  "itemCondition": "https://schema.org/NewCondition"
-                }
+                "image": "https://stackcoffee.com.br/assets/daily-build-250g.webp"
               },
               {
                 "@type": "Product",
                 "name": "Daily Build 1 kg — torrado em grãos",
                 "sku": "SC-DB-1KG-GRAOS",
                 "size": "1 kg",
+                "url": "https://loja.stackcoffee.com.br/",
                 "additionalProperty": {
                   "@type": "PropertyValue",
                   "name": "Apresentação",
                   "value": "Torrado em grãos"
                 },
-                "image": "https://stackcoffee.com.br/assets/daily-build-1kg.webp",
-                "offers": {
-                  "@type": "Offer",
-                  "url": "https://stackcoffee.com.br/#comprar",
-                  "priceCurrency": "BRL",
-                  "price": "134.90",
-                  "availability": "https://schema.org/InStock",
-                  "itemCondition": "https://schema.org/NewCondition"
-                }
+                "image": "https://stackcoffee.com.br/assets/daily-build-1kg.webp"
               }
             ]
           }
@@ -147,11 +133,11 @@
 
       <nav class="main-nav" id="main-nav" aria-label="Navegação principal">
         <a href="#daily-build">Daily Build</a>
-        <a href="#comprar">Comprar</a>
+        <a class="nav-cta" href="https://loja.stackcoffee.com.br/" data-store-link>Loja <span>↗</span></a>
         <a href="#empresas">Para empresas</a>
         <a href="#origem">Origem</a>
         <a href="#sobre">Sobre</a>
-        <a class="nav-cta" href="https://www.instagram.com/stackcoffee.oficial/" target="_blank" rel="noreferrer">Instagram <span>↗</span></a>
+        <a href="https://www.instagram.com/stackcoffee.oficial/" target="_blank" rel="noreferrer">Instagram <span>↗</span></a>
       </nav>
     </header>
 
@@ -167,13 +153,13 @@
           <h1 id="hero-title">Café especial<br /><em>do Sul de Minas.</em></h1>
           <p class="hero-copy">Café para o que vem depois — feito para quem vive entre ideias, entregas e novos começos.</p>
           <div class="hero-actions">
-            <a class="button button-primary" href="#comprar">Quero meu Daily Build <span>↓</span></a>
+            <a class="button button-primary" href="https://loja.stackcoffee.com.br/" data-store-link>Acessar a loja <span>↗</span></a>
             <a class="text-link" href="#daily-build">Conheça o café <span>→</span></a>
           </div>
         </div>
         <div class="hero-status" aria-label="Status do lançamento">
           <span class="pulse"></span>
-          <span>LOJA EM CONFIGURAÇÃO</span>
+          <span>LOJA ONLINE</span>
           <b>v1.0</b>
         </div>
       </section>
@@ -215,71 +201,49 @@
         </div>
       </section>
 
-      <section class="store section" id="comprar" aria-labelledby="store-title">
-        <div class="section-kicker reveal">02 // DEPLOY PARA SUA XÍCARA</div>
+      <section class="store section" id="loja" aria-labelledby="store-title">
+        <div class="section-kicker reveal">02 // LOJA OFICIAL</div>
         <div class="store-card reveal">
-          <div class="store-media">
-            <img class="product-shot is-active" data-product-image="SC-DB-250-MOIDO" src="assets/daily-build-250g.webp" alt="Embalagem do café Stack Coffee Daily Build torrado e moído de 250 gramas" width="1122" height="1402" loading="lazy" />
-            <img class="product-shot" data-product-image="SC-DB-1KG-GRAOS" src="assets/daily-build-1kg.webp" alt="Embalagem do café Stack Coffee Daily Build torrado em grãos de 1 quilo" width="1122" height="1402" loading="lazy" aria-hidden="true" />
-            <span class="store-badge">FRETE GRÁTIS</span>
-            <span class="media-caption" id="media-caption">250 g // TORRADO E MOÍDO</span>
+          <div class="store-media landing-product-grid" aria-label="Apresentações do Daily Build">
+            <span class="store-badge">LOJA ONLINE</span>
+            <figure class="landing-product">
+              <img src="assets/daily-build-250g.webp" alt="Stack Coffee Daily Build torrado e moído de 250 gramas" width="1122" height="1402" loading="lazy" decoding="async" />
+              <figcaption>250 G // TORRADO E MOÍDO</figcaption>
+            </figure>
+            <figure class="landing-product">
+              <img src="assets/daily-build-1kg.webp" alt="Stack Coffee Daily Build torrado em grãos de 1 quilo" width="1122" height="1402" loading="lazy" decoding="async" />
+              <figcaption>1 KG // TORRADO EM GRÃOS</figcaption>
+            </figure>
           </div>
 
           <div class="store-details">
-            <p class="command">$ checkout --channel mercado-pago</p>
+            <p class="command">$ open https://loja.stackcoffee.com.br</p>
             <h2 id="store-title">DAILY BUILD</h2>
-            <p class="store-subtitle">Escolha sua versão</p>
-
-            <div class="variant-list" role="radiogroup" aria-label="Versão do Daily Build">
-              <button class="variant-option active" type="button" role="radio" aria-checked="true" data-sku="SC-DB-250-MOIDO" data-price="39.90">
-                <span><b>250 g</b><small>Torrado e moído</small></span>
-                <strong>R$ 39,90</strong>
-              </button>
-              <button class="variant-option" type="button" role="radio" aria-checked="false" data-sku="SC-DB-1KG-GRAOS" data-price="134.90">
-                <span><b>1 kg</b><small>Torrado em grãos</small></span>
-                <strong>R$ 134,90</strong>
-              </button>
-            </div>
+            <p class="store-subtitle">A história começa aqui. A compra acontece na loja oficial.</p>
 
             <div class="store-specs" aria-label="Características do produto">
               <span>100% arábica</span>
+              <span>Arara</span>
+              <span>86 pontos</span>
               <span>Torra média</span>
               <span>Sul de Minas</span>
             </div>
 
-            <p class="store-description">Doce, encorpado e fácil de beber. Notas de chocolate, caramelo e castanhas para manter sua stack rodando do primeiro café ao último commit.</p>
+            <p class="store-description">Conheça o Daily Build nas versões 250 g torrado e moído e 1 kg em grãos. Estoque, pagamento, frete e pedidos ficam concentrados na Nuvemshop.</p>
 
-            <div class="order-row">
-              <div class="quantity-control" aria-label="Quantidade">
-                <span>QUANTIDADE</span>
-                <div>
-                  <button id="quantity-minus" type="button" aria-label="Diminuir quantidade">−</button>
-                  <output id="quantity-value" aria-live="polite">1</output>
-                  <button id="quantity-plus" type="button" aria-label="Aumentar quantidade">+</button>
-                </div>
-              </div>
-              <div class="order-total">
-                <span>TOTAL DOS PRODUTOS</span>
-                <strong id="order-total">R$ 39,90</strong>
-              </div>
+            <div class="store-gateway">
+              <a class="button button-marketplace" href="https://loja.stackcoffee.com.br/" data-store-link>Acessar loja oficial <span>↗</span></a>
+              <p>Você será direcionado para <strong>loja.stackcoffee.com.br</strong>.</p>
             </div>
 
-            <div class="buy-area">
-              <button id="checkout-button" class="button button-marketplace" type="button">
-                Pagar com Mercado Pago <span>↗</span>
-              </button>
-              <p>Pix, cartão ou boleto no ambiente seguro do Mercado Pago. Frete grátis para todo o Brasil.</p>
-            </div>
-            <p class="checkout-message" id="checkout-message" role="status" aria-live="polite"></p>
-
-            <a class="notify-link" href="https://www.instagram.com/stackcoffee.oficial/" target="_blank" rel="noreferrer">Acompanhar o lançamento no Instagram <span>→</span></a>
+            <a class="notify-link" href="https://www.instagram.com/stackcoffee.oficial/" target="_blank" rel="noreferrer">Acompanhar a Stack Coffee no Instagram <span>→</span></a>
           </div>
         </div>
 
-        <div class="commerce-benefits reveal" aria-label="Benefícios da compra">
-          <div><b>01</b><strong>Compra protegida</strong><span>Pagamento processado no ambiente do Mercado Pago.</span></div>
-          <div><b>02</b><strong>Entrega acompanhada</strong><span>Rastreamento disponível no pedido.</span></div>
-          <div><b>03</b><strong>Café de lote fresco</strong><span>Produção inicial pequena, com atenção à data de torra.</span></div>
+        <div class="commerce-benefits reveal" aria-label="Apresentações disponíveis">
+          <div><b>01</b><strong>250 g moído</strong><span>Prático para o café do dia a dia e para conhecer o Daily Build.</span></div>
+          <div><b>02</b><strong>1 kg em grãos</strong><span>Para quem prefere moer na hora e consome café com frequência.</span></div>
+          <div><b>03</b><strong>Loja oficial</strong><span>Catálogo, pedidos e pagamento em um único endereço.</span></div>
         </div>
       </section>
 
@@ -364,7 +328,7 @@
         <span>STACK COFFEE</span>
       </a>
       <p>COFFEE FOR WHAT'S NEXT.</p>
-      <div><a href="https://wa.me/5511963478863" target="_blank" rel="noreferrer">WhatsApp</a><a href="/politica-de-privacidade/">Privacidade</a><a href="https://stackcoffee.com.br/">stackcoffee.com.br</a><span>© <span id="year"></span></span></div>
+      <div><a href="https://loja.stackcoffee.com.br/" data-store-link>Loja</a><a href="https://wa.me/5511963478863" target="_blank" rel="noreferrer">WhatsApp</a><a href="/politica-de-privacidade/">Privacidade</a><a href="https://www.instagram.com/stackcoffee.oficial/" target="_blank" rel="noreferrer">Instagram</a><span>© <span id="year"></span></span></div>
     </footer>
   </body>
 </html>
