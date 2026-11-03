@@ -701,6 +701,74 @@ button,input{font:inherit}.app{max-width:1500px;margin:auto;padding:16px}
   .chart-wide canvas{height:300px}
 }
 
+
+/* =========================================================
+   V14 — TIMER GRANDE E RESPONSIVO
+   O relógio usa o maior tamanho possível sem invadir a etapa.
+   ========================================================= */
+
+.operation-panel{
+  grid-template-columns:minmax(0,1.55fr) minmax(220px,280px) minmax(330px,390px);
+  align-items:stretch;
+}
+
+.op-timer{
+  min-height:0;
+  overflow:hidden;
+}
+
+.op-timer .kicker{
+  flex:0 0 auto;
+}
+
+.timer{
+  flex:1 1 auto;
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  width:100%;
+  max-width:100%;
+  min-width:0;
+  min-height:0;
+  overflow:visible;
+  white-space:nowrap;
+  line-height:.78;
+  letter-spacing:-.06em;
+}
+
+.operation-panel .status{
+  flex:0 0 auto;
+  margin-top:4px;
+}
+
+@media (max-width:1350px){
+  .operation-panel{
+    grid-template-columns:minmax(0,1.45fr) minmax(205px,245px) minmax(300px,350px);
+  }
+}
+
+@media (max-width:1050px){
+  .operation-panel{
+    grid-template-columns:minmax(0,1fr) minmax(290px,36%);
+    grid-template-areas:
+      "timer controls"
+      "phase controls";
+  }
+}
+
+@media (max-width:760px){
+  .operation-panel{
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "timer"
+      "phase"
+      "controls";
+  }
+  .op-timer{
+    min-height:230px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -978,19 +1046,32 @@ function fitTimer(){
   const host=document.querySelector(".op-timer");
   if(!el||!host)return;
 
-  const style=getComputedStyle(host);
-  const available=Math.max(180, host.clientWidth
-    - parseFloat(style.paddingLeft||0)
-    - parseFloat(style.paddingRight||0)
-    - 4);
+  const kicker=host.querySelector(".kicker");
+  const status=host.querySelector(".status");
 
-  let lo=38, hi=210, best=38;
-  el.style.fontSize=lo+"px";
+  const hostStyle=getComputedStyle(host);
+  const availableW=Math.max(
+    220,
+    host.clientWidth
+      - parseFloat(hostStyle.paddingLeft||0)
+      - parseFloat(hostStyle.paddingRight||0)
+      - 4
+  );
 
-  for(let i=0;i<11;i++){
+  const reservedH=(kicker?.offsetHeight||0)+(status?.offsetHeight||0)+18;
+  const availableH=Math.max(90, host.clientHeight-reservedH);
+
+  let lo=42, hi=260, best=42;
+
+  // Mede em largura e altura para usar o maior tamanho realmente possível.
+  for(let i=0;i<12;i++){
     const mid=(lo+hi)/2;
     el.style.fontSize=mid+"px";
-    if(el.scrollWidth<=available){
+
+    const fitsW=el.scrollWidth<=availableW;
+    const fitsH=el.scrollHeight<=availableH;
+
+    if(fitsW && fitsH){
       best=mid;
       lo=mid;
     }else{
@@ -1001,6 +1082,15 @@ function fitTimer(){
   el.style.fontSize=Math.floor(best)+"px";
 }
 
+
+if("ResizeObserver" in window){
+  const ro=new ResizeObserver(()=>fitTimer());
+  const timerHost=document.querySelector(".op-timer");
+  const panel=document.querySelector(".operation-panel");
+  if(timerHost)ro.observe(timerHost);
+  if(panel)ro.observe(panel);
+}
+
 E.start.onclick=start;E.testAlert.onclick=testAlert;E.pause.onclick=pause;E.reset.onclick=reset;E.tempBtn.onclick=registerTemp;E.input.addEventListener("keydown",e=>{if(e.key==="Enter")registerTemp()});E.apply.onclick=apply;E.export.onclick=exportCSV;E.mark.onclick=()=>{let n=prompt("Nome do evento:");if(n){marks.push({sec:secNow(),n});log("Evento manual: "+n,"alert")}};E.full.onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.();addEventListener("resize",()=>{fitTimer();draw()});document.addEventListener("visibilitychange",()=>{
   if(document.visibilityState==="visible"&&(state==="running"||state==="paused")){
     ensureAudio(); keepAwake();
@@ -1009,7 +1099,7 @@ E.start.onclick=start;E.testAlert.onclick=testAlert;E.pause.onclick=pause;E.rese
 window.addEventListener("focus",()=>{if(state==="running"||state==="paused")keepAwake()});
 window.addEventListener("pageshow",()=>{if(state==="running"||state==="paused")keepAwake()});
 setInterval(()=>{if((state==="running"||state==="paused")&&document.visibilityState==="visible")keepAwake()},30000);
-renderRows();sync();setWakeUI("","TELA: aguardando");update();fitTimer();draw();setTimeout(fitTimer,100);
+renderRows();sync();setWakeUI("","TELA: aguardando");update();fitTimer();draw();setTimeout(fitTimer,50);setTimeout(fitTimer,250);
 })();
 </script>
 </body>
