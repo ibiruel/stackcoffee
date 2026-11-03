@@ -45,6 +45,47 @@ button,input{font:inherit}.app{max-width:1500px;margin:auto;padding:16px}
 .toggles{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}.toggle{display:flex;justify-content:space-between;gap:10px;background:#181b1e;padding:10px;border-radius:9px;border:1px solid var(--line);font-size:13px}.toggle input{accent-color:var(--orange)}
 .log{display:grid;gap:6px;max-height:240px;overflow:auto;margin-top:10px}.log-entry{font-size:12px;padding:7px 9px;border-left:3px solid var(--line);background:#151719}.log-entry.alert{border-left-color:var(--orange);color:#fff}
 .note{color:var(--muted);font-size:12px;line-height:1.4;margin-top:10px}.footer{text-align:center;color:#777;padding:22px;font-size:12px}
+
+/* MODO OPERACIONAL COMPACTO — notebook / telas baixas */
+@media (min-width:951px) and (max-height:900px){
+  .app{max-width:1600px;padding:8px 12px}
+  .topbar{padding:8px 12px;border-radius:13px;top:4px}
+  .brand{gap:9px}.bars{width:31px;gap:4px}.bars i{height:6px}
+  .brand strong{font-size:14px}.brand small{font-size:8px}
+  .actions{gap:6px}.btn{padding:8px 11px;font-size:12px}
+
+  .grid{grid-template-columns:minmax(0,1.9fr) minmax(330px,.72fr);gap:10px;margin-top:10px}
+  .control-stack{gap:10px}
+  .timer-card{padding:16px 18px;min-height:300px;max-height:310px}
+  .timer-card .kicker{font-size:10px}
+  .timer{font-size:clamp(92px,11vw,172px);line-height:.82;align-items:center}
+  .status{gap:6px}.pill{padding:6px 8px;font-size:11px}
+
+  .temp-card{padding:12px}.temp-card .head h2{font-size:15px}.temp-card .head p{font-size:10px;margin-top:2px}
+  .temp-entry{margin-top:7px;gap:6px}.temp-entry input{padding:9px 10px;font-size:22px}.temp-entry .btn{padding:8px 10px}
+  .compare{margin-top:6px;padding:7px 8px;font-size:11px}
+  .side{padding:11px}.side .kicker{font-size:10px}
+  .metrics{gap:6px;margin-top:7px}.metric{padding:8px}.metric span{font-size:8px}.metric b{font-size:21px;margin-top:2px}
+  .phase{margin-top:6px;padding:8px 10px}.phase .kicker{font-size:9px}.phase b{font-size:16px}.phase p{font-size:10px;line-height:1.25;margin-top:2px}
+
+  .chart-wide{margin-top:10px;padding:12px 14px}
+  .chart-wide .head h2{font-size:16px}.chart-wide .head p{font-size:10px;margin-top:2px}
+  .chart-wide canvas{height:310px;margin-top:7px}
+
+  .milestones{margin-top:10px;padding:10px 12px}.milestones h2{margin-bottom:8px;font-size:10px}
+  .milestone-grid{gap:7px}.milestone{padding:8px 10px;min-height:68px}.milestone .label{font-size:8px}.milestone .time{font-size:18px;margin-top:3px}.milestone .temp{font-size:11px;margin-top:3px}
+
+  .events-card,.profile-card,.log-card{padding:12px 14px}.section,.events-card{margin-top:10px}
+}
+
+/* Tela ainda mais baixa, comum em notebooks 1366x768 */
+@media (min-width:951px) and (max-height:780px){
+  .timer-card{min-height:260px;max-height:270px}
+  .timer{font-size:clamp(82px,10.2vw,154px)}
+  .chart-wide canvas{height:270px}
+  .topbar{position:static}
+}
+
 @media(max-width:950px){.grid,.main{grid-template-columns:1fr}.milestone-grid{grid-template-columns:1fr 1fr}.toggles{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.app{padding:9px}.topbar{position:static;align-items:flex-start}.milestone-grid{grid-template-columns:1fr 1fr;gap:8px}.milestone{padding:10px}.milestone .time{font-size:20px}.milestones h2{font-size:12px;margin-bottom:10px}.toggles{grid-template-columns:1fr}}
 </style>
