@@ -778,6 +778,17 @@ button,input{font:inherit}.app{max-width:1500px;margin:auto;padding:16px}
   .op-timer{min-height:270px}
 }
 
+
+/* V16 — cronômetro estável: tamanho não muda durante a contagem */
+.timer{
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  transform:none !important;
+  transition:none !important;
+  animation:none !important;
+  will-change:auto;
+}
+
 </style>
 </head>
 <body>
@@ -1006,7 +1017,7 @@ function pause(){if(state!=="running")return;state="paused";pauseAt=performance.
 function reset(){cancelAnimationFrame(raf);releaseWake();state="idle";elapsed=0;actual=[];marks=[];logs=[];fired.clear();preFired.clear();tempFired.clear();E.log.innerHTML="";E.current.textContent="—";E.dev.textContent="—";E.devText.textContent="Aguardando leitura";sync();update();draw()}
 function check(){let s=secNow();profile.forEach((p,i)=>{if(p.alert&&E.pre.checked&&s>=p.sec-15&&s<p.sec&&!preFired.has(i)){preFired.add(i);alertP(p,true)}if(p.alert&&s>=p.sec&&!fired.has(i)){fired.add(i);alertP(p)}});if(s>=total()&&state==="running"){state="finished";cancelAnimationFrame(raf);beep(1500,8,"urgent");vibrate("urgent");speak("Descarga. Finalize a torra e inicie o resfriamento.");log("Descarga atingida","alert");sync();setTimeout(releaseWake,30000)}}
 function loop(n=performance.now()){if(state!=="running")return;elapsed=n-startAt-paused;check();update();draw();if(state==="running")raf=requestAnimationFrame(loop)}
-function update(){let s=secNow(),tg=target(s),ph=phase(s),next=profile.find(p=>p.sec>s);E.timer.textContent=fmt(elapsed);fitTimer();E.target.textContent=tg.toFixed(1)+"°";E.remaining.textContent=clock(total()-s);E.phase.textContent=ph[0];E.phaseHelp.textContent=ph[1];E.next.textContent=next?`${next.name} • ${clock(next.sec)}`:"—";renderEvents(s)}
+function update(){let s=secNow(),tg=target(s),ph=phase(s),next=profile.find(p=>p.sec>s);E.timer.textContent=fmt(elapsed);E.target.textContent=tg.toFixed(1)+"°";E.remaining.textContent=clock(total()-s);E.phase.textContent=ph[0];E.phaseHelp.textContent=ph[1];E.next.textContent=next?`${next.name} • ${clock(next.sec)}`:"—";renderEvents(s)}
 function registerTemp(){let v=parseFloat(String(E.input.value).replace(",","."));if(!Number.isFinite(v))return;let s=secNow(),tg=target(s),d=v-tg;actual.push({sec:s,temp:v});E.current.textContent=v.toFixed(1)+"°";E.dev.textContent=(d>=0?"+":"")+d.toFixed(1)+"°";let a=Math.abs(d),cls=a<=5?"good":a<=10?"warn":"bad";E.dev.className=cls;E.devText.textContent=a<=5?"Dentro da faixa":d>0?"Acima do alvo":"Abaixo do alvo";E.devText.className=cls;log(`Temperatura: ${v.toFixed(1)} °C (alvo ${tg.toFixed(1)} °C)`);if(E.tempAlert.checked)profile.forEach((p,i)=>{if(tempFired.has(i))return;let prev=actual.length>1?actual.at(-2).temp:null,cross=prev===null?Math.abs(v-p.temp)<=1.2:(prev<p.temp&&v>=p.temp)||(prev>p.temp&&v<=p.temp);if(cross){tempFired.add(i);beep(1200,4,"urgent");vibrate("urgent");speak(`Referência de ${String(p.temp).replace(".",",")} graus. ${p.name}.`);log(`Referência por temperatura: ${p.name} — ${p.temp} °C`,"alert")}});E.input.select();draw()}
 function renderEvents(s=secNow()){E.events.innerHTML="";let ni=profile.findIndex(p=>p.sec>s);profile.slice(1).forEach((p,j)=>{let i=j+1,d=document.createElement("div");d.className="event"+(s>=p.sec?" done":i===ni?" current":"");d.innerHTML=`<time>${clock(p.sec)}</time><div>${p.name}</div><div class="temp">${String(p.temp).replace(".",",")}°C</div>`;E.events.appendChild(d)})}
 function renderRows(){E.rows.innerHTML="";profile.slice(1).forEach((p,j)=>{let i=j+1,tr=document.createElement("tr");tr.innerHTML=`<td><input data-i="${i}" data-k="name" value="${p.name}"></td><td><input data-i="${i}" data-k="sec" type="number" step="1" value="${p.sec}"></td><td><input data-i="${i}" data-k="temp" type="number" step="0.1" value="${p.temp}"></td><td><input data-i="${i}" data-k="alert" type="checkbox" ${p.alert?"checked":""}></td>`;E.rows.appendChild(tr)})}
@@ -1067,14 +1078,16 @@ function fitTimer(){
     probe=document.createElement("span");
     probe.id="timerProbe";
     probe.setAttribute("aria-hidden","true");
-    probe.style.position="absolute";
-    probe.style.visibility="hidden";
-    probe.style.pointerEvents="none";
-    probe.style.whiteSpace="nowrap";
-    probe.style.width="max-content";
-    probe.style.height="auto";
-    probe.style.left="-10000px";
-    probe.style.top="-10000px";
+    Object.assign(probe.style,{
+      position:"absolute",
+      visibility:"hidden",
+      pointerEvents:"none",
+      whiteSpace:"nowrap",
+      width:"max-content",
+      height:"auto",
+      left:"-10000px",
+      top:"-10000px"
+    });
     document.body.appendChild(probe);
   }
 
@@ -1084,7 +1097,10 @@ function fitTimer(){
   probe.style.fontStyle=cs.fontStyle;
   probe.style.letterSpacing=cs.letterSpacing;
   probe.style.lineHeight=cs.lineHeight;
-  probe.textContent=el.textContent || "00:00.00";
+
+  // Mede sempre uma string "larga" e fixa.
+  // Assim o tamanho da fonte NÃO muda conforme os dígitos do cronômetro mudam.
+  probe.textContent="88:88.88";
 
   let lo=40, hi=280, best=40;
   for(let i=0;i<13;i++){
@@ -1104,11 +1120,19 @@ function fitTimer(){
 
 
 if("ResizeObserver" in window){
-  const ro=new ResizeObserver(()=>fitTimer());
-  const timerHost=document.querySelector(".op-timer");
+  let fitRAF=null;
+  const ro=new ResizeObserver(()=>{
+    cancelAnimationFrame(fitRAF);
+    fitRAF=requestAnimationFrame(fitTimer);
+  });
   const panel=document.querySelector(".operation-panel");
-  if(timerHost)ro.observe(timerHost);
   if(panel)ro.observe(panel);
+}
+
+
+window.addEventListener("orientationchange",()=>setTimeout(fitTimer,150));
+if(document.fonts && document.fonts.ready){
+  document.fonts.ready.then(()=>fitTimer()).catch(()=>{});
 }
 
 E.start.onclick=start;E.testAlert.onclick=testAlert;E.pause.onclick=pause;E.reset.onclick=reset;E.tempBtn.onclick=registerTemp;E.input.addEventListener("keydown",e=>{if(e.key==="Enter")registerTemp()});E.apply.onclick=apply;E.export.onclick=exportCSV;E.mark.onclick=()=>{let n=prompt("Nome do evento:");if(n){marks.push({sec:secNow(),n});log("Evento manual: "+n,"alert")}};E.full.onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.();addEventListener("resize",()=>{fitTimer();draw()});document.addEventListener("visibilitychange",()=>{
