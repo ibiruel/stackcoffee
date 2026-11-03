@@ -232,6 +232,277 @@ button,input{font:inherit}.app{max-width:1500px;margin:auto;padding:16px}
   .timer-main{order:1}
 }
 
+
+/* =========================================================
+   V12 — LAYOUT FLUIDO / SEM BURACOS / RESPONSIVO A ZOOM
+   Estas regras ficam por último para neutralizar limites
+   antigos de altura e manter as colunas perfeitamente alinhadas.
+   ========================================================= */
+
+.app{
+  width:min(100%, 1680px);
+  max-width:1680px;
+  padding:clamp(8px,1vw,16px);
+}
+
+.topbar{
+  width:100%;
+  min-width:0;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) minmax(360px, 28%);
+  gap:clamp(8px,1vw,14px);
+  margin-top:clamp(8px,1vw,14px);
+  align-items:stretch;
+}
+
+.grid > *{
+  min-width:0;
+}
+
+/* O card do relógio sempre acompanha a altura real da coluna direita */
+.timer-card{
+  min-height:0 !important;
+  max-height:none !important;
+  height:100% !important;
+  padding:clamp(12px,1.1vw,18px);
+  overflow:hidden;
+}
+
+.timer-layout{
+  height:100% !important;
+  min-height:0;
+  grid-template-columns:minmax(0, 1fr) clamp(230px, 20vw, 320px) !important;
+  gap:clamp(8px,.9vw,14px) !important;
+}
+
+.timer-main{
+  min-width:0;
+  min-height:0;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  overflow:hidden;
+}
+
+.timer{
+  min-width:0;
+  width:100%;
+  min-height:0;
+  max-width:100%;
+  flex:1 1 auto;
+  overflow:visible;
+}
+
+.status{
+  flex:0 0 auto;
+  gap:clamp(5px,.5vw,9px);
+}
+
+.pill{
+  white-space:nowrap;
+  max-width:100%;
+}
+
+.timer-phase{
+  min-width:0;
+  height:100%;
+  align-self:stretch;
+}
+
+.timer-phase .phase{
+  height:100% !important;
+  min-height:0 !important;
+  padding:clamp(12px,1vw,18px);
+}
+
+/* A coluna de controles passa a ser uma unidade com a mesma altura do timer */
+.control-stack{
+  display:grid;
+  grid-template-rows:auto minmax(0,1fr);
+  gap:clamp(8px,1vw,14px);
+  height:100%;
+  min-height:0;
+}
+
+.control-stack > .card{
+  min-width:0;
+}
+
+.control-stack .side{
+  height:100%;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
+}
+
+.control-stack .side .metrics{
+  flex:1;
+}
+
+/* Gráfico cola no bloco superior sem folga artificial */
+.chart-wide{
+  margin-top:clamp(8px,1vw,12px) !important;
+  width:100%;
+}
+
+.chart-wide canvas{
+  width:100%;
+  height:clamp(300px, 34vw, 500px);
+}
+
+/* Desktop / notebook */
+@media (min-width: 1101px){
+  .grid{
+    grid-template-columns:minmax(0, 1fr) minmax(350px, 27%);
+  }
+}
+
+/* Zoom maior ou notebook mais estreito: coluna direita encolhe antes de quebrar */
+@media (max-width: 1100px){
+  .grid{
+    grid-template-columns:minmax(0, 1fr) minmax(310px, 34%);
+  }
+  .timer-layout{
+    grid-template-columns:minmax(0,1fr) minmax(210px,260px) !important;
+  }
+  .pill{
+    font-size:10px;
+    padding:6px 8px;
+  }
+}
+
+/* Tablet / zoom elevado: empilha os dois grandes blocos sem sobreposição */
+@media (max-width: 820px){
+  .topbar{
+    position:static;
+    flex-wrap:wrap;
+  }
+  .actions{
+    width:100%;
+    justify-content:flex-start;
+  }
+  .grid{
+    grid-template-columns:1fr;
+  }
+  .timer-card{
+    height:auto !important;
+  }
+  .timer-layout{
+    grid-template-columns:1fr !important;
+    height:auto !important;
+  }
+  .timer-main{
+    min-height:230px;
+  }
+  .timer-phase{
+    height:auto;
+  }
+  .timer-phase .phase{
+    min-height:110px !important;
+  }
+  .control-stack{
+    height:auto;
+    grid-template-rows:auto auto;
+  }
+  .chart-wide canvas{
+    height:clamp(280px,55vw,420px);
+  }
+}
+
+/* Celular */
+@media (max-width: 560px){
+  .app{
+    padding:6px;
+  }
+  .topbar{
+    border-radius:12px;
+    padding:10px;
+  }
+  .brand strong{
+    font-size:14px;
+  }
+  .actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+  .actions .btn{
+    width:100%;
+    min-height:44px;
+  }
+  .timer-main{
+    min-height:205px;
+  }
+  .timer{
+    min-height:120px;
+  }
+  .status{
+    display:grid;
+    grid-template-columns:1fr;
+    width:100%;
+  }
+  .pill{
+    width:100%;
+    white-space:normal;
+  }
+  .temp-entry{
+    grid-template-columns:1fr;
+  }
+  .temp-entry .btn{
+    min-height:48px;
+  }
+  .metrics{
+    grid-template-columns:1fr 1fr;
+  }
+  .chart-wide{
+    padding:10px;
+  }
+  .chart-wide .head{
+    flex-direction:column;
+  }
+  .chart-wide .head .btn{
+    width:100%;
+  }
+  .chart-wide canvas{
+    height:310px;
+  }
+}
+
+/* Telas baixas: compacta conteúdo, mas NUNCA cria max-height no timer */
+@media (min-width:821px) and (max-height:820px){
+  .topbar{
+    position:static;
+    padding:8px 12px;
+  }
+  .grid{
+    margin-top:8px;
+    gap:8px;
+  }
+  .timer-card{
+    min-height:0 !important;
+    max-height:none !important;
+    height:100% !important;
+    padding:10px 12px;
+  }
+  .timer-phase .phase{
+    padding:10px;
+  }
+  .temp-card,
+  .side{
+    padding:9px 10px;
+  }
+  .chart-wide{
+    margin-top:8px !important;
+    padding:10px 12px;
+  }
+  .chart-wide canvas{
+    height:clamp(270px,34vh,340px);
+  }
+}
+
 </style>
 </head>
 <body>
