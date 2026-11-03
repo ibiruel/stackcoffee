@@ -769,6 +769,15 @@ button,input{font:inherit}.app{max-width:1500px;margin:auto;padding:16px}
   }
 }
 
+
+/* V15 — timer medido pelo texto real */
+@media (min-width: 1200px){
+  .op-timer{min-height:300px}
+}
+@media (min-width: 901px) and (max-width:1199px){
+  .op-timer{min-height:270px}
+}
+
 </style>
 </head>
 <body>
@@ -1049,29 +1058,40 @@ function fitTimer(){
   const kicker=host.querySelector(".kicker");
   const status=host.querySelector(".status");
 
-  const hostStyle=getComputedStyle(host);
-  const availableW=Math.max(
-    220,
-    host.clientWidth
-      - parseFloat(hostStyle.paddingLeft||0)
-      - parseFloat(hostStyle.paddingRight||0)
-      - 4
-  );
-
+  const availableW=Math.max(180, host.clientWidth-4);
   const reservedH=(kicker?.offsetHeight||0)+(status?.offsetHeight||0)+18;
   const availableH=Math.max(90, host.clientHeight-reservedH);
 
-  let lo=42, hi=260, best=42;
+  let probe=document.getElementById("timerProbe");
+  if(!probe){
+    probe=document.createElement("span");
+    probe.id="timerProbe";
+    probe.setAttribute("aria-hidden","true");
+    probe.style.position="absolute";
+    probe.style.visibility="hidden";
+    probe.style.pointerEvents="none";
+    probe.style.whiteSpace="nowrap";
+    probe.style.width="max-content";
+    probe.style.height="auto";
+    probe.style.left="-10000px";
+    probe.style.top="-10000px";
+    document.body.appendChild(probe);
+  }
 
-  // Mede em largura e altura para usar o maior tamanho realmente possível.
-  for(let i=0;i<12;i++){
+  const cs=getComputedStyle(el);
+  probe.style.fontFamily=cs.fontFamily;
+  probe.style.fontWeight=cs.fontWeight;
+  probe.style.fontStyle=cs.fontStyle;
+  probe.style.letterSpacing=cs.letterSpacing;
+  probe.style.lineHeight=cs.lineHeight;
+  probe.textContent=el.textContent || "00:00.00";
+
+  let lo=40, hi=280, best=40;
+  for(let i=0;i<13;i++){
     const mid=(lo+hi)/2;
-    el.style.fontSize=mid+"px";
-
-    const fitsW=el.scrollWidth<=availableW;
-    const fitsH=el.scrollHeight<=availableH;
-
-    if(fitsW && fitsH){
+    probe.style.fontSize=mid+"px";
+    const rect=probe.getBoundingClientRect();
+    if(rect.width<=availableW && rect.height<=availableH){
       best=mid;
       lo=mid;
     }else{
