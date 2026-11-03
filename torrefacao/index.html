@@ -52,6 +52,7 @@ canvas{display:block;width:100%;height:410px;background:#0d0f11;border:1px solid
     <div class="brand"><div class="bars"><i></i><i></i><i></i></div><div><strong>STACK COFFEE</strong><small>TORRA MANUAL // DAILY BUILD</small></div></div>
     <div class="actions">
       <button class="btn primary" id="startBtn">INICIAR TORREFAÇÃO</button>
+      <button class="btn" id="testAlertBtn">🔊 TESTAR ALERTA</button>
       <button class="btn pause" id="pauseBtn" disabled>PAUSAR</button>
       <button class="btn danger" id="resetBtn">ZERAR</button>
       <button class="btn" id="fullscreenBtn">TELA CHEIA</button>
@@ -64,7 +65,7 @@ canvas{display:block;width:100%;height:410px;background:#0d0f11;border:1px solid
       <div class="timer" id="timer">00:00.00</div>
       <div class="status">
         <span class="pill"><span class="dot" id="statusDot"></span><b id="statusText">PRONTO</b></span>
-        <span class="pill">Próximo marco: <b id="nextAlert">Ponto de virada • 01:10</b></span>
+        <span class="pill">Próximo marco: <b id="nextAlert">Ponto de virada • 01:33</b></span>
       </div>
     </div>
     <div class="card side">
@@ -73,7 +74,7 @@ canvas{display:block;width:100%;height:410px;background:#0d0f11;border:1px solid
         <div class="metric"><span>Temperatura alvo</span><b id="targetTemp">190.0°</b></div>
         <div class="metric"><span>Temperatura atual</span><b id="currentTemp">—</b></div>
         <div class="metric"><span>Desvio</span><b id="deviation">—</b></div>
-        <div class="metric"><span>Tempo restante</span><b id="timeRemaining">11:18</b></div>
+        <div class="metric"><span>Tempo restante</span><b id="timeRemaining">15:00</b></div>
       </div>
       <div class="phase"><div class="kicker">FASE ATUAL</div><b id="phaseName">Carga / absorção</b><p id="phaseHelp">Inicie o cronômetro no momento da entrada do café.</p></div>
     </div>
@@ -82,10 +83,10 @@ canvas{display:block;width:100%;height:410px;background:#0d0f11;border:1px solid
   <section class="milestones">
     <h2>Marcos</h2>
     <div class="milestone-grid">
-      <div class="milestone"><div class="label">Ponto de virada</div><div class="time">01min10</div><div class="temp">68 °C</div></div>
-      <div class="milestone"><div class="label">Fim da secagem</div><div class="time">07min14</div><div class="temp">159 °C</div></div>
-      <div class="milestone"><div class="label">1º crack</div><div class="time">09min38</div><div class="temp">189,8 °C</div></div>
-      <div class="milestone"><div class="label">Descarga</div><div class="time">11min18</div><div class="temp">205,6 °C</div></div>
+      <div class="milestone"><div class="label">Ponto de virada</div><div class="time">01min33</div><div class="temp">68 °C</div></div>
+      <div class="milestone"><div class="label">Fim da secagem</div><div class="time">09min36</div><div class="temp">159 °C</div></div>
+      <div class="milestone"><div class="label">1º crack</div><div class="time">12min47</div><div class="temp">189,8 °C</div></div>
+      <div class="milestone"><div class="label">Descarga</div><div class="time">15min00</div><div class="temp">205,6 °C</div></div>
     </div>
   </section>
 
@@ -124,44 +125,112 @@ canvas{display:block;width:100%;height:410px;background:#0d0f11;border:1px solid
     <div id="log" class="log"></div>
   </section>
 
-  <div class="footer">STACK COFFEE // TORRA MANUAL — Perfil de referência ajustável conforme suas torras reais.</div>
+  <div class="section card" style="padding:14px 18px;border-color:#3a2a1c;background:#15120f">
+    <div class="kicker">BACKUP NO CELULAR</div>
+    <div class="note" style="color:#d9c2ae">Antes da torra, toque em <b style="color:#fff">TESTAR ALERTA</b> com o volume de mídia do celular alto. Durante a torra, mantenha esta página aberta e a tela ligada. O sistema tenta impedir o bloqueio de tela em navegadores compatíveis e usa <b style="color:#fff">BIPs fortes + voz + vibração</b> como redundância.</div>
+  </div>
+
+  <div class="footer">STACK COFFEE // TORRA MANUAL — Perfil inicial escalado para 15 minutos. Ajuste os marcos após validar a primeira torra real na sua máquina.</div>
 </div>
 
 <script>
 (()=>{
 const base=[
 {name:"Carga",sec:0,temp:190,alert:false,help:"Entrada do café no tambor."},
-{name:"Ponto de virada",sec:70,temp:68,alert:true,help:"Temperatura mínima antes da retomada da subida."},
-{name:"Fim da secagem",sec:434,temp:159,alert:true,help:"Fim da fase de secagem."},
-{name:"1º crack",sec:578,temp:189.8,alert:true,help:"Início do primeiro crack."},
-{name:"Descarga",sec:678,temp:205.6,alert:true,help:"Momento de descarregar e resfriar."}
+{name:"Ponto de virada",sec:93,temp:68,alert:true,help:"Temperatura mínima antes da retomada da subida."},
+{name:"Fim da secagem",sec:576,temp:159,alert:true,help:"Fim da fase de secagem."},
+{name:"1º crack",sec:767,temp:189.8,alert:true,help:"Início do primeiro crack."},
+{name:"Descarga",sec:900,temp:205.6,alert:true,help:"Momento de descarregar e resfriar."}
 ];
 let profile=structuredClone(base),state="idle",startAt=0,pauseAt=0,paused=0,elapsed=0,raf=null,actual=[],logs=[],fired=new Set(),preFired=new Set(),tempFired=new Set(),marks=[];
-const $=q=>document.querySelector(q),E={start:$("#startBtn"),pause:$("#pauseBtn"),reset:$("#resetBtn"),full:$("#fullscreenBtn"),timer:$("#timer"),dot:$("#statusDot"),status:$("#statusText"),next:$("#nextAlert"),target:$("#targetTemp"),current:$("#currentTemp"),dev:$("#deviation"),remaining:$("#timeRemaining"),phase:$("#phaseName"),phaseHelp:$("#phaseHelp"),chart:$("#chart"),input:$("#tempInput"),tempBtn:$("#tempBtn"),devText:$("#devText"),events:$("#events"),rows:$("#profileRows"),apply:$("#applyProfileBtn"),sound:$("#soundToggle"),speech:$("#speechToggle"),tempAlert:$("#tempAlertToggle"),pre:$("#preAlertToggle"),log:$("#log"),export:$("#exportBtn"),mark:$("#markBtn")};
+const $=q=>document.querySelector(q),E={start:$("#startBtn"),testAlert:$("#testAlertBtn"),pause:$("#pauseBtn"),reset:$("#resetBtn"),full:$("#fullscreenBtn"),timer:$("#timer"),dot:$("#statusDot"),status:$("#statusText"),next:$("#nextAlert"),target:$("#targetTemp"),current:$("#currentTemp"),dev:$("#deviation"),remaining:$("#timeRemaining"),phase:$("#phaseName"),phaseHelp:$("#phaseHelp"),chart:$("#chart"),input:$("#tempInput"),tempBtn:$("#tempBtn"),devText:$("#devText"),events:$("#events"),rows:$("#profileRows"),apply:$("#applyProfileBtn"),sound:$("#soundToggle"),speech:$("#speechToggle"),tempAlert:$("#tempAlertToggle"),pre:$("#preAlertToggle"),log:$("#log"),export:$("#exportBtn"),mark:$("#markBtn")};
 
 const fmt=ms=>{let cs=Math.floor(ms/10)%100,t=Math.floor(ms/1000),s=t%60,m=Math.floor(t/60);return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}.${String(cs).padStart(2,"0")}`};
 const clock=s=>`${String(Math.floor(Math.max(0,s)/60)).padStart(2,"0")}:${String(Math.floor(Math.max(0,s)%60)).padStart(2,"0")}`;
 const secNow=()=>elapsed/1000,total=()=>profile.at(-1).sec;
 function target(sec){if(sec<=profile[0].sec)return profile[0].temp;if(sec>=total())return profile.at(-1).temp;for(let i=0;i<profile.length-1;i++){let a=profile[i],b=profile[i+1];if(sec>=a.sec&&sec<=b.sec){let p=(sec-a.sec)/(b.sec-a.sec);if(i===0)return b.temp+(a.temp-b.temp)*Math.pow(1-p,2.6);return a.temp+(b.temp-a.temp)*p}}return profile[0].temp}
-function phase(sec){if(sec<70)return["Carga / absorção","A temperatura cai rapidamente até o ponto de virada."];if(sec<434)return["Secagem","Conduza energia de forma estável até 07:14 / 159 °C."];if(sec<578)return["Maillard","Acompanhe a evolução até o 1º crack em 09:38 / 189,8 °C."];if(sec<678)return["Desenvolvimento","Controle o desenvolvimento até a descarga em 11:18 / 205,6 °C."];return["Descarga / resfriamento","Descarregue e inicie o resfriamento rapidamente."]}
+function phase(sec){if(sec<93)return["Carga / absorção","A temperatura cai rapidamente até o ponto de virada em 01:33 / 68 °C."];if(sec<576)return["Secagem","Conduza energia de forma estável até 09:36 / 159 °C."];if(sec<767)return["Maillard","Acompanhe a evolução até o 1º crack em 12:47 / 189,8 °C."];if(sec<900)return["Desenvolvimento","Controle o desenvolvimento até a descarga em 15:00 / 205,6 °C."];return["Descarga / resfriamento","Descarregue e inicie o resfriamento rapidamente."]}
 function log(t,c=""){logs.push({sec:secNow(),t});let d=document.createElement("div");d.className="log-entry "+c;d.textContent=`${clock(secNow())} — ${t}`;E.log.prepend(d)}
-function beep(f=900,n=1){if(!E.sound.checked)return;try{let C=window.AudioContext||window.webkitAudioContext,c=new C,t=c.currentTime;for(let i=0;i<n;i++){let o=c.createOscillator(),g=c.createGain();o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+.18);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+.2);t+=.28}setTimeout(()=>c.close(),1200)}catch{}}
-function speak(t){if(E.speech.checked&&"speechSynthesis"in window){speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang="pt-BR";u.rate=.95;speechSynthesis.speak(u)}}
-function alertP(p,pre=false){beep(pre?650:980,pre?1:3);speak(pre?`${p.name} em quinze segundos.`:`${p.name}. Referência ${String(p.temp).replace(".",",")} graus.`);log(pre?`Pré-alerta: ${p.name} em 15 s`:`MARCO: ${p.name} — ${p.temp} °C`,"alert")}
+let audioCtx=null,masterGain=null,wakeLock=null;
+function ensureAudio(){
+  try{
+    const C=window.AudioContext||window.webkitAudioContext;
+    if(!C)return false;
+    if(!audioCtx){
+      audioCtx=new C();
+      masterGain=audioCtx.createGain();
+      masterGain.gain.value=0.95;
+      masterGain.connect(audioCtx.destination);
+    }
+    if(audioCtx.state==="suspended")audioCtx.resume();
+    // toque silencioso curto para liberar áudio em Safari/iOS após gesto do usuário
+    const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+    g.gain.value=0.00001;o.connect(g);g.connect(masterGain);o.start();o.stop(audioCtx.currentTime+.02);
+    return true;
+  }catch(e){return false}
+}
+function beep(f=1250,n=3,pattern="normal"){
+  if(!E.sound.checked)return;
+  if(!ensureAudio())return;
+  try{
+    let t=audioCtx.currentTime+.03;
+    const dur=pattern==="urgent"?.28:.20;
+    const gap=pattern==="urgent"?.10:.12;
+    for(let i=0;i<n;i++){
+      // dois osciladores juntos deixam o BIP mais cortante e audível em alto-falante de celular
+      [f,f*1.52].forEach((freq,j)=>{
+        const o=audioCtx.createOscillator(),g=audioCtx.createGain();
+        o.type=j===0?"square":"sine";o.frequency.setValueAtTime(freq,t);
+        g.gain.setValueAtTime(.0001,t);
+        g.gain.exponentialRampToValueAtTime(j===0?.62:.28,t+.012);
+        g.gain.setValueAtTime(j===0?.62:.28,t+dur-.035);
+        g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+        o.connect(g);g.connect(masterGain);o.start(t);o.stop(t+dur+.02);
+      });
+      t+=dur+gap;
+    }
+  }catch(e){}
+}
+function vibrate(kind="normal"){
+  if(!navigator.vibrate)return;
+  navigator.vibrate(kind==="urgent"?[350,120,350,120,350,120,500]:[220,100,220]);
+}
+function speak(t){
+  if(!E.speech.checked||!("speechSynthesis"in window))return;
+  try{
+    speechSynthesis.cancel();
+    let u=new SpeechSynthesisUtterance(t);u.lang="pt-BR";u.rate=.92;u.volume=1;u.pitch=1;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+async function keepAwake(){
+  try{if("wakeLock"in navigator&&!wakeLock)wakeLock=await navigator.wakeLock.request("screen")}catch(e){}
+}
+async function releaseWake(){try{if(wakeLock){await wakeLock.release();wakeLock=null}}catch(e){}}
+function alertP(p,pre=false){
+  if(pre){beep(1050,2);vibrate();speak(`${p.name} em quinze segundos.`)}
+  else{beep(1350,5,"urgent");vibrate("urgent");speak(`${p.name}. Referência ${String(p.temp).replace(".",",")} graus.`)}
+  log(pre?`Pré-alerta: ${p.name} em 15 s`:`MARCO: ${p.name} — ${p.temp} °C`,"alert")
+}
+function testAlert(){
+  ensureAudio();
+  beep(1350,5,"urgent");vibrate("urgent");speak("Teste de alerta Stack Coffee. Áudio funcionando.");
+  log("Teste manual de alerta executado","alert");
+}
 function sync(){E.start.textContent=state==="paused"?"RETOMAR TORREFAÇÃO":state==="idle"?"INICIAR TORREFAÇÃO":state==="finished"?"TORRA FINALIZADA":"TORRANDO...";E.start.disabled=state==="running"||state==="finished";E.pause.disabled=state!=="running";E.dot.className="dot "+(state==="running"?"running":state==="paused"?"paused":"");E.status.textContent=state==="running"?"TORRANDO":state==="paused"?"PAUSADO":state==="finished"?"FINALIZADO":"PRONTO"}
-function start(){if(state==="paused"){paused+=performance.now()-pauseAt;state="running";log("Torrefação retomada");sync();loop();return}if(state!=="idle")return;state="running";startAt=performance.now();paused=0;elapsed=0;actual=[];logs=[];E.log.innerHTML="";fired.clear();preFired.clear();tempFired.clear();log("Torrefação iniciada","alert");beep(740,2);speak("Torrefação iniciada.");sync();loop()}
+function start(){ensureAudio();keepAwake();if(state==="paused"){paused+=performance.now()-pauseAt;state="running";log("Torrefação retomada");sync();loop();return}if(state!=="idle")return;state="running";startAt=performance.now();paused=0;elapsed=0;actual=[];logs=[];E.log.innerHTML="";fired.clear();preFired.clear();tempFired.clear();log("Torrefação iniciada","alert");beep(1000,3);vibrate();speak("Torrefação iniciada.");sync();loop()}
 function pause(){if(state!=="running")return;state="paused";pauseAt=performance.now();cancelAnimationFrame(raf);log("Torrefação pausada");sync();update()}
-function reset(){cancelAnimationFrame(raf);state="idle";elapsed=0;actual=[];marks=[];logs=[];fired.clear();preFired.clear();tempFired.clear();E.log.innerHTML="";E.current.textContent="—";E.dev.textContent="—";E.devText.textContent="Aguardando leitura";sync();update();draw()}
-function check(){let s=secNow();profile.forEach((p,i)=>{if(p.alert&&E.pre.checked&&s>=p.sec-15&&s<p.sec&&!preFired.has(i)){preFired.add(i);alertP(p,true)}if(p.alert&&s>=p.sec&&!fired.has(i)){fired.add(i);alertP(p)}});if(s>=total()&&state==="running"){state="finished";cancelAnimationFrame(raf);beep(1100,4);speak("Descarga. Finalize a torra e inicie o resfriamento.");log("Descarga atingida","alert");sync()}}
+function reset(){cancelAnimationFrame(raf);releaseWake();state="idle";elapsed=0;actual=[];marks=[];logs=[];fired.clear();preFired.clear();tempFired.clear();E.log.innerHTML="";E.current.textContent="—";E.dev.textContent="—";E.devText.textContent="Aguardando leitura";sync();update();draw()}
+function check(){let s=secNow();profile.forEach((p,i)=>{if(p.alert&&E.pre.checked&&s>=p.sec-15&&s<p.sec&&!preFired.has(i)){preFired.add(i);alertP(p,true)}if(p.alert&&s>=p.sec&&!fired.has(i)){fired.add(i);alertP(p)}});if(s>=total()&&state==="running"){state="finished";cancelAnimationFrame(raf);beep(1500,8,"urgent");vibrate("urgent");speak("Descarga. Finalize a torra e inicie o resfriamento.");log("Descarga atingida","alert");sync()}}
 function loop(n=performance.now()){if(state!=="running")return;elapsed=n-startAt-paused;check();update();draw();if(state==="running")raf=requestAnimationFrame(loop)}
 function update(){let s=secNow(),tg=target(s),ph=phase(s),next=profile.find(p=>p.sec>s);E.timer.textContent=fmt(elapsed);E.target.textContent=tg.toFixed(1)+"°";E.remaining.textContent=clock(total()-s);E.phase.textContent=ph[0];E.phaseHelp.textContent=ph[1];E.next.textContent=next?`${next.name} • ${clock(next.sec)}`:"—";renderEvents(s)}
-function registerTemp(){let v=parseFloat(String(E.input.value).replace(",","."));if(!Number.isFinite(v))return;let s=secNow(),tg=target(s),d=v-tg;actual.push({sec:s,temp:v});E.current.textContent=v.toFixed(1)+"°";E.dev.textContent=(d>=0?"+":"")+d.toFixed(1)+"°";let a=Math.abs(d),cls=a<=5?"good":a<=10?"warn":"bad";E.dev.className=cls;E.devText.textContent=a<=5?"Dentro da faixa":d>0?"Acima do alvo":"Abaixo do alvo";E.devText.className=cls;log(`Temperatura: ${v.toFixed(1)} °C (alvo ${tg.toFixed(1)} °C)`);if(E.tempAlert.checked)profile.forEach((p,i)=>{if(tempFired.has(i))return;let prev=actual.length>1?actual.at(-2).temp:null,cross=prev===null?Math.abs(v-p.temp)<=1.2:(prev<p.temp&&v>=p.temp)||(prev>p.temp&&v<=p.temp);if(cross){tempFired.add(i);beep(820,2);speak(`Referência de ${String(p.temp).replace(".",",")} graus. ${p.name}.`);log(`Referência por temperatura: ${p.name} — ${p.temp} °C`,"alert")}});E.input.select();draw()}
+function registerTemp(){let v=parseFloat(String(E.input.value).replace(",","."));if(!Number.isFinite(v))return;let s=secNow(),tg=target(s),d=v-tg;actual.push({sec:s,temp:v});E.current.textContent=v.toFixed(1)+"°";E.dev.textContent=(d>=0?"+":"")+d.toFixed(1)+"°";let a=Math.abs(d),cls=a<=5?"good":a<=10?"warn":"bad";E.dev.className=cls;E.devText.textContent=a<=5?"Dentro da faixa":d>0?"Acima do alvo":"Abaixo do alvo";E.devText.className=cls;log(`Temperatura: ${v.toFixed(1)} °C (alvo ${tg.toFixed(1)} °C)`);if(E.tempAlert.checked)profile.forEach((p,i)=>{if(tempFired.has(i))return;let prev=actual.length>1?actual.at(-2).temp:null,cross=prev===null?Math.abs(v-p.temp)<=1.2:(prev<p.temp&&v>=p.temp)||(prev>p.temp&&v<=p.temp);if(cross){tempFired.add(i);beep(1200,4,"urgent");vibrate("urgent");speak(`Referência de ${String(p.temp).replace(".",",")} graus. ${p.name}.`);log(`Referência por temperatura: ${p.name} — ${p.temp} °C`,"alert")}});E.input.select();draw()}
 function renderEvents(s=secNow()){E.events.innerHTML="";let ni=profile.findIndex(p=>p.sec>s);profile.slice(1).forEach((p,j)=>{let i=j+1,d=document.createElement("div");d.className="event"+(s>=p.sec?" done":i===ni?" current":"");d.innerHTML=`<time>${clock(p.sec)}</time><div>${p.name}</div><div class="temp">${String(p.temp).replace(".",",")}°C</div>`;E.events.appendChild(d)})}
 function renderRows(){E.rows.innerHTML="";profile.slice(1).forEach((p,j)=>{let i=j+1,tr=document.createElement("tr");tr.innerHTML=`<td><input data-i="${i}" data-k="name" value="${p.name}"></td><td><input data-i="${i}" data-k="sec" type="number" step="1" value="${p.sec}"></td><td><input data-i="${i}" data-k="temp" type="number" step="0.1" value="${p.temp}"></td><td><input data-i="${i}" data-k="alert" type="checkbox" ${p.alert?"checked":""}></td>`;E.rows.appendChild(tr)})}
 function apply(){E.rows.querySelectorAll("input").forEach(x=>{let i=+x.dataset.i,k=x.dataset.k;if(k==="alert")profile[i][k]=x.checked;else if(k==="name")profile[i][k]=x.value.trim()||profile[i][k];else profile[i][k]=parseFloat(x.value)||0});profile.sort((a,b)=>a.sec-b.sec);fired.clear();preFired.clear();tempFired.clear();renderRows();update();draw();log("Perfil atualizado");beep(620,2)}
 function exportCSV(){let r=[["tempo_seg","tempo","temperatura_c","descricao"]];actual.forEach(p=>r.push([p.sec.toFixed(1),clock(p.sec),p.temp.toFixed(1),"leitura"]));logs.forEach(l=>r.push([l.sec.toFixed(1),clock(l.sec),"",l.t]));let csv=r.map(a=>a.map(v=>`"${String(v).replaceAll('"','""')}"`).join(";")).join("\n"),b=new Blob(["\uFEFF"+csv],{type:"text/csv;charset=utf-8"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="stackcoffee-torra.csv";a.click()}
-function draw(){let c=E.chart,rect=c.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2),W=Math.max(600,Math.round(rect.width*dpr)),H=Math.max(320,Math.round(rect.height*dpr));c.width=W;c.height=H;let x=c.getContext("2d"),p={l:58*dpr,r:22*dpr,t:22*dpr,b:42*dpr},pw=W-p.l-p.r,ph=H-p.t-p.b,maxS=Math.max(720,total()),minT=50,maxT=220,X=s=>p.l+s/maxS*pw,Y=t=>p.t+(1-(t-minT)/(maxT-minT))*ph;x.fillStyle="#0d0f11";x.fillRect(0,0,W,H);x.strokeStyle="#24282b";x.fillStyle="#868b8f";x.font=`${11*dpr}px system-ui`;[60,100,140,180,220].forEach(t=>{let y=Y(t);x.beginPath();x.moveTo(p.l,y);x.lineTo(W-p.r,y);x.stroke();x.fillText(t+"°",8*dpr,y+4*dpr)});for(let s=0;s<=maxS;s+=120){let xx=X(s);x.beginPath();x.moveTo(xx,p.t);x.lineTo(xx,H-p.b);x.stroke();x.fillText(Math.floor(s/60)+"min",xx-10*dpr,H-14*dpr)}x.strokeStyle="#ff5a00";x.lineWidth=4*dpr;x.beginPath();for(let i=0;i<=180;i++){let s=maxS*i/180,t=target(s),xx=X(s),yy=Y(t);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}x.stroke();profile.slice(1).forEach(m=>{x.fillStyle="#0d0f11";x.strokeStyle="#ff5a00";x.lineWidth=3*dpr;x.beginPath();x.arc(X(m.sec),Y(m.temp),5*dpr,0,Math.PI*2);x.fill();x.stroke();x.fillStyle="#f4f0e9";x.font=`${10*dpr}px system-ui`;x.fillText(m.name,X(m.sec)+7*dpr,Y(m.temp)-8*dpr)});if(actual.length){x.strokeStyle="#f4f0e9";x.lineWidth=3*dpr;x.beginPath();actual.forEach((q,i)=>i?x.lineTo(X(q.sec),Y(q.temp)):x.moveTo(X(q.sec),Y(q.temp)));x.stroke();actual.forEach(q=>{let d=Math.abs(q.temp-target(q.sec));x.fillStyle=d<=5?"#39d98a":d<=10?"#ffca3a":"#ff4d4f";x.beginPath();x.arc(X(q.sec),Y(q.temp),4*dpr,0,Math.PI*2);x.fill()})}}
-E.start.onclick=start;E.pause.onclick=pause;E.reset.onclick=reset;E.tempBtn.onclick=registerTemp;E.input.addEventListener("keydown",e=>{if(e.key==="Enter")registerTemp()});E.apply.onclick=apply;E.export.onclick=exportCSV;E.mark.onclick=()=>{let n=prompt("Nome do evento:");if(n){marks.push({sec:secNow(),n});log("Evento manual: "+n,"alert")}};E.full.onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.();addEventListener("resize",draw);renderRows();sync();update();draw();
+function draw(){let c=E.chart,rect=c.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2),W=Math.max(600,Math.round(rect.width*dpr)),H=Math.max(320,Math.round(rect.height*dpr));c.width=W;c.height=H;let x=c.getContext("2d"),p={l:58*dpr,r:22*dpr,t:22*dpr,b:42*dpr},pw=W-p.l-p.r,ph=H-p.t-p.b,maxS=Math.max(900,total()),minT=50,maxT=220,X=s=>p.l+s/maxS*pw,Y=t=>p.t+(1-(t-minT)/(maxT-minT))*ph;x.fillStyle="#0d0f11";x.fillRect(0,0,W,H);x.strokeStyle="#24282b";x.fillStyle="#868b8f";x.font=`${11*dpr}px system-ui`;[60,100,140,180,220].forEach(t=>{let y=Y(t);x.beginPath();x.moveTo(p.l,y);x.lineTo(W-p.r,y);x.stroke();x.fillText(t+"°",8*dpr,y+4*dpr)});for(let s=0;s<=maxS;s+=180){let xx=X(s);x.beginPath();x.moveTo(xx,p.t);x.lineTo(xx,H-p.b);x.stroke();x.fillText(Math.floor(s/60)+"min",xx-10*dpr,H-14*dpr)}x.strokeStyle="#ff5a00";x.lineWidth=4*dpr;x.beginPath();for(let i=0;i<=180;i++){let s=maxS*i/180,t=target(s),xx=X(s),yy=Y(t);i?x.lineTo(xx,yy):x.moveTo(xx,yy)}x.stroke();profile.slice(1).forEach(m=>{x.fillStyle="#0d0f11";x.strokeStyle="#ff5a00";x.lineWidth=3*dpr;x.beginPath();x.arc(X(m.sec),Y(m.temp),5*dpr,0,Math.PI*2);x.fill();x.stroke();x.fillStyle="#f4f0e9";x.font=`${10*dpr}px system-ui`;x.fillText(m.name,X(m.sec)+7*dpr,Y(m.temp)-8*dpr)});if(actual.length){x.strokeStyle="#f4f0e9";x.lineWidth=3*dpr;x.beginPath();actual.forEach((q,i)=>i?x.lineTo(X(q.sec),Y(q.temp)):x.moveTo(X(q.sec),Y(q.temp)));x.stroke();actual.forEach(q=>{let d=Math.abs(q.temp-target(q.sec));x.fillStyle=d<=5?"#39d98a":d<=10?"#ffca3a":"#ff4d4f";x.beginPath();x.arc(X(q.sec),Y(q.temp),4*dpr,0,Math.PI*2);x.fill()})}}
+E.start.onclick=start;E.testAlert.onclick=testAlert;E.pause.onclick=pause;E.reset.onclick=reset;E.tempBtn.onclick=registerTemp;E.input.addEventListener("keydown",e=>{if(e.key==="Enter")registerTemp()});E.apply.onclick=apply;E.export.onclick=exportCSV;E.mark.onclick=()=>{let n=prompt("Nome do evento:");if(n){marks.push({sec:secNow(),n});log("Evento manual: "+n,"alert")}};E.full.onclick=()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen?.();addEventListener("resize",draw);document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&state==="running"){ensureAudio();keepAwake()}});renderRows();sync();update();draw();
 })();
 </script>
 </body>
